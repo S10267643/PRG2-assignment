@@ -4,6 +4,6 @@ class Program
 {
     static void Main()
     {
-        Console.WriteLine("u vv gay");
+        Console.WriteLine("u vv gay bitch");
     }
 }
