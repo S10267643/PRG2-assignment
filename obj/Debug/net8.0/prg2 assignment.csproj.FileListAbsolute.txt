@@ -1,0 +1,14 @@
+C:\Users\super\Downloads\PRG2-assignment-master\PRG2-assignment-master\bin\Debug\net8.0\prg2 assignment.exe
+C:\Users\super\Downloads\PRG2-assignment-master\PRG2-assignment-master\bin\Debug\net8.0\prg2 assignment.deps.json
+C:\Users\super\Downloads\PRG2-assignment-master\PRG2-assignment-master\bin\Debug\net8.0\prg2 assignment.runtimeconfig.json
+C:\Users\super\Downloads\PRG2-assignment-master\PRG2-assignment-master\bin\Debug\net8.0\prg2 assignment.dll
+C:\Users\super\Downloads\PRG2-assignment-master\PRG2-assignment-master\bin\Debug\net8.0\prg2 assignment.pdb
+C:\Users\super\Downloads\PRG2-assignment-master\PRG2-assignment-master\obj\Debug\net8.0\prg2 assignment.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\super\Downloads\PRG2-assignment-master\PRG2-assignment-master\obj\Debug\net8.0\prg2 assignment.AssemblyInfoInputs.cache
+C:\Users\super\Downloads\PRG2-assignment-master\PRG2-assignment-master\obj\Debug\net8.0\prg2 assignment.AssemblyInfo.cs
+C:\Users\super\Downloads\PRG2-assignment-master\PRG2-assignment-master\obj\Debug\net8.0\prg2 assignment.csproj.CoreCompileInputs.cache
+C:\Users\super\Downloads\PRG2-assignment-master\PRG2-assignment-master\obj\Debug\net8.0\prg2 assignment.dll
+C:\Users\super\Downloads\PRG2-assignment-master\PRG2-assignment-master\obj\Debug\net8.0\refint\prg2 assignment.dll
+C:\Users\super\Downloads\PRG2-assignment-master\PRG2-assignment-master\obj\Debug\net8.0\prg2 assignment.pdb
+C:\Users\super\Downloads\PRG2-assignment-master\PRG2-assignment-master\obj\Debug\net8.0\prg2 assignment.genruntimeconfig.cache
+C:\Users\super\Downloads\PRG2-assignment-master\PRG2-assignment-master\obj\Debug\net8.0\ref\prg2 assignment.dll
