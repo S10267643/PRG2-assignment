@@ -4,11 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-
-using System;
-using System.Collections.Generic;
-using System.IO;
-
 class Program
 {
     static Dictionary<string, Airline> airlinesDict = new Dictionary<string, Airline>();
@@ -20,25 +15,6 @@ class Program
         LoadAirlines("airlines.csv");
         LoadBoardingGates("boardinggates.csv");
         LoadFlights("flights.csv");
-
-        // Display loaded data
-        Console.WriteLine("\nLoaded Airlines:");
-        foreach (var airline in airlinesDict)
-        {
-            Console.WriteLine($"{airline.Key}: {airline.Value.Name}");
-        }
-
-        Console.WriteLine("\nLoaded Boarding Gates:");
-        foreach (var gate in boardingGatesDict)
-        {
-            Console.WriteLine($"{gate.Key}: Special Requests - {string.Join(", ", gate.Value.SpecialRequests)}");
-        }
-
-        Console.WriteLine("\nLoaded Flights:");
-        foreach (var flight in flightsDict)
-        {
-            Console.WriteLine($"{flight.Key}: {flight.Value.AirlineName} from {flight.Value.Origin} to {flight.Value.Destination} at {flight.Value.ExpectedTime} ({flight.Value.Status})");
-        }
     }
 
     static void LoadAirlines(string filePath)
@@ -58,7 +34,7 @@ class Program
                     airlinesDict[code] = new Airline(code, name);
                     count++;
                 }
-                Console.WriteLine($"Airlines loaded successfully! Total: {count}");
+                Console.WriteLine($"Total Airlines Loaded: {count}");
             }
         }
         catch (Exception e)
@@ -84,7 +60,7 @@ class Program
                     boardingGatesDict[gate] = new BoardingGate(gate, specialRequests);
                     count++;
                 }
-                Console.WriteLine($"Boarding gates loaded successfully! Total: {count}");
+                Console.WriteLine($"Total Boarding Gates Loaded: {count}");
             }
         }
         catch (Exception e)
@@ -114,7 +90,7 @@ class Program
                     flightsDict[flightNumber] = new Flight(flightNumber, airlineName, origin, destination, expectedTime, status);
                     count++;
                 }
-                Console.WriteLine($"Flights loaded successfully! Total: {count}");
+                Console.WriteLine($"Total Flights Loaded: {count}");
             }
         }
         catch (Exception e)
