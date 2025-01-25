@@ -5,9 +5,12 @@ using System.Collections.Generic;
 using System.IO;
 
 
+using System;
+using System.Collections.Generic;
+using System.IO;
+
 class Program
 {
-   
     static Dictionary<string, Airline> airlinesDict = new Dictionary<string, Airline>();
     static Dictionary<string, BoardingGate> boardingGatesDict = new Dictionary<string, BoardingGate>();
     static Dictionary<string, Flight> flightsDict = new Dictionary<string, Flight>();
@@ -18,7 +21,7 @@ class Program
         LoadBoardingGates("boardinggates.csv");
         LoadFlights("flights.csv");
 
-        
+        // Display loaded data
         Console.WriteLine("\nLoaded Airlines:");
         foreach (var airline in airlinesDict)
         {
@@ -40,20 +43,22 @@ class Program
 
     static void LoadAirlines(string filePath)
     {
+        int count = 0;
         try
         {
             using (StreamReader reader = new StreamReader(filePath))
             {
                 string line;
-                reader.ReadLine(); 
+                reader.ReadLine(); // Skip header
                 while ((line = reader.ReadLine()) != null)
                 {
                     var parts = line.Split(',');
                     string code = parts[0];
                     string name = parts[1];
                     airlinesDict[code] = new Airline(code, name);
+                    count++;
                 }
-                Console.WriteLine("Airlines loaded successfully!");
+                Console.WriteLine($"Airlines loaded successfully! Total: {count}");
             }
         }
         catch (Exception e)
@@ -64,20 +69,22 @@ class Program
 
     static void LoadBoardingGates(string filePath)
     {
+        int count = 0;
         try
         {
             using (StreamReader reader = new StreamReader(filePath))
             {
                 string line;
-                reader.ReadLine(); 
+                reader.ReadLine(); // Skip header
                 while ((line = reader.ReadLine()) != null)
                 {
                     var parts = line.Split(',');
                     string gate = parts[0];
                     List<string> specialRequests = parts.Length > 1 ? new List<string>(parts[1].Split(';')) : new List<string>();
                     boardingGatesDict[gate] = new BoardingGate(gate, specialRequests);
+                    count++;
                 }
-                Console.WriteLine("Boarding gates loaded successfully!");
+                Console.WriteLine($"Boarding gates loaded successfully! Total: {count}");
             }
         }
         catch (Exception e)
@@ -88,12 +95,13 @@ class Program
 
     static void LoadFlights(string filePath)
     {
+        int count = 0;
         try
         {
             using (StreamReader reader = new StreamReader(filePath))
             {
                 string line;
-                reader.ReadLine(); 
+                reader.ReadLine(); // Skip header
                 while ((line = reader.ReadLine()) != null)
                 {
                     var parts = line.Split(',');
@@ -104,8 +112,9 @@ class Program
                     string expectedTime = parts[4];
                     string status = parts.Length > 5 ? parts[5] : "On Time";
                     flightsDict[flightNumber] = new Flight(flightNumber, airlineName, origin, destination, expectedTime, status);
+                    count++;
                 }
-                Console.WriteLine("Flights loaded successfully!");
+                Console.WriteLine($"Flights loaded successfully! Total: {count}");
             }
         }
         catch (Exception e)
@@ -114,9 +123,6 @@ class Program
         }
     }
 }
-
-
-
 
 public class Airline
 {
