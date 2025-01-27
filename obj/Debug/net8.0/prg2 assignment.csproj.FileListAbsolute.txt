@@ -12,3 +12,18 @@ C:\Users\super\Downloads\PRG2-assignment-master\PRG2-assignment-master\obj\Debug
 C:\Users\super\Downloads\PRG2-assignment-master\PRG2-assignment-master\obj\Debug\net8.0\prg2 assignment.pdb
 C:\Users\super\Downloads\PRG2-assignment-master\PRG2-assignment-master\obj\Debug\net8.0\prg2 assignment.genruntimeconfig.cache
 C:\Users\super\Downloads\PRG2-assignment-master\PRG2-assignment-master\obj\Debug\net8.0\ref\prg2 assignment.dll
+C:\Users\ashto\OneDrive\Desktop\school shit\prg2 assignment\bin\Debug\net8.0\prg2 assignment.exe
+C:\Users\ashto\OneDrive\Desktop\school shit\prg2 assignment\bin\Debug\net8.0\prg2 assignment.deps.json
+C:\Users\ashto\OneDrive\Desktop\school shit\prg2 assignment\bin\Debug\net8.0\prg2 assignment.runtimeconfig.json
+C:\Users\ashto\OneDrive\Desktop\school shit\prg2 assignment\bin\Debug\net8.0\prg2 assignment.dll
+C:\Users\ashto\OneDrive\Desktop\school shit\prg2 assignment\bin\Debug\net8.0\prg2 assignment.pdb
+C:\Users\ashto\OneDrive\Desktop\school shit\prg2 assignment\obj\Debug\net8.0\prg2 assignment.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ashto\OneDrive\Desktop\school shit\prg2 assignment\obj\Debug\net8.0\prg2 assignment.AssemblyInfoInputs.cache
+C:\Users\ashto\OneDrive\Desktop\school shit\prg2 assignment\obj\Debug\net8.0\prg2 assignment.AssemblyInfo.cs
+C:\Users\ashto\OneDrive\Desktop\school shit\prg2 assignment\obj\Debug\net8.0\prg2 assignment.csproj.CoreCompileInputs.cache
+C:\Users\ashto\OneDrive\Desktop\school shit\prg2 assignment\obj\Debug\net8.0\prg2 assignment.sourcelink.json
+C:\Users\ashto\OneDrive\Desktop\school shit\prg2 assignment\obj\Debug\net8.0\prg2 assignment.dll
+C:\Users\ashto\OneDrive\Desktop\school shit\prg2 assignment\obj\Debug\net8.0\refint\prg2 assignment.dll
+C:\Users\ashto\OneDrive\Desktop\school shit\prg2 assignment\obj\Debug\net8.0\prg2 assignment.pdb
+C:\Users\ashto\OneDrive\Desktop\school shit\prg2 assignment\obj\Debug\net8.0\prg2 assignment.genruntimeconfig.cache
+C:\Users\ashto\OneDrive\Desktop\school shit\prg2 assignment\obj\Debug\net8.0\ref\prg2 assignment.dll

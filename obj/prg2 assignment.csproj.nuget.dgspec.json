@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\super\\Downloads\\PRG2-assignment-master\\PRG2-assignment-master\\prg2 assignment.csproj": {}
+    "C:\\Users\\ashto\\OneDrive\\Desktop\\school shit\\prg2 assignment\\prg2 assignment.csproj": {}
   },
   "projects": {
-    "C:\\Users\\super\\Downloads\\PRG2-assignment-master\\PRG2-assignment-master\\prg2 assignment.csproj": {
+    "C:\\Users\\ashto\\OneDrive\\Desktop\\school shit\\prg2 assignment\\prg2 assignment.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\super\\Downloads\\PRG2-assignment-master\\PRG2-assignment-master\\prg2 assignment.csproj",
+        "projectUniqueName": "C:\\Users\\ashto\\OneDrive\\Desktop\\school shit\\prg2 assignment\\prg2 assignment.csproj",
         "projectName": "prg2 assignment",
-        "projectPath": "C:\\Users\\super\\Downloads\\PRG2-assignment-master\\PRG2-assignment-master\\prg2 assignment.csproj",
-        "packagesPath": "C:\\Users\\super\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\super\\Downloads\\PRG2-assignment-master\\PRG2-assignment-master\\obj\\",
+        "projectPath": "C:\\Users\\ashto\\OneDrive\\Desktop\\school shit\\prg2 assignment\\prg2 assignment.csproj",
+        "packagesPath": "C:\\Users\\ashto\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ashto\\OneDrive\\Desktop\\school shit\\prg2 assignment\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\super\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ashto\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
