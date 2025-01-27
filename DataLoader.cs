@@ -102,7 +102,7 @@ namespace prg2_assignment
                             var expectedTime = DateTime.TryParse(values[3].Trim(), out var time) ? time : default;
                             var specialRequest = values[4].Trim();
 
-                            // Instantiate the appropriate subclass based on the special request
+                            // Determine the correct flight type
                             Flight flight = specialRequest switch
                             {
                                 "CFFT" => new CFFTFlight(flightNumber, origin, destination, time, "On Time", ""),
@@ -126,6 +126,5 @@ namespace prg2_assignment
                 Console.WriteLine($"Error loading flights: {ex.Message}");
             }
         }
-
     }
 }
