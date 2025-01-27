@@ -44,7 +44,6 @@ namespace prg2_assignment
             return Airlines.ContainsKey(flight.AirlineName) ? Airlines[flight.AirlineName] : null;
         }
 
-
         public override string ToString()
         {
             return $"Terminal {TerminalName} hosts {Airlines.Count} airlines.";
@@ -80,7 +79,6 @@ namespace prg2_assignment
                 Console.WriteLine($"{airline.Key} owes: {totalFees - discount} in fees after discounts.");
             }
         }
-
     }
 
 }

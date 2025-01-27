@@ -15,16 +15,16 @@ namespace prg2_assignment
         public string Status { get; private set; }
         public string AirlineName { get; private set; }
 
-        public Flight(string flightNumber, string origin, string destination, DateTime expectedTime, string status)
+        public Flight(string flightNumber, string origin, string destination, DateTime expectedTime, string status, string airlineName)
         {
             FlightNumber = flightNumber;
             Origin = origin;
             Destination = destination;
             ExpectedTime = expectedTime;
             Status = status;
+            AirlineName = airlineName;
         }
 
-        //basic fee
         public virtual double CalculateFees()
         {
             double fee = 0;

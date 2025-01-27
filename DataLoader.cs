@@ -47,9 +47,8 @@ namespace prg2_assignment
                 {
                     var line = reader.ReadLine();
                     var values = line.Split(',');
-                    DateTime expectedTime;
-                    DateTime.TryParse(values[3], out expectedTime);
-                    var flight = new Flight(values[0], values[1], values[2], expectedTime, values[4]);
+                    DateTime expectedTime = DateTime.Parse(values[3]);
+                    Flight flight = new LWTTFlight(values[0], values[1], values[2], expectedTime, values[4], values[5]);
                     flights.Add(flight.FlightNumber, flight);
                 }
             }
