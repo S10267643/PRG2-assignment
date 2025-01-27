@@ -102,20 +102,9 @@ namespace prg2_assignment
                             var expectedTime = DateTime.TryParse(values[3].Trim(), out var time) ? time : default;
                             var specialRequest = values[4].Trim();
 
-                            // Determine the correct flight type
-                            Flight flight = specialRequest switch
-                            {
-                                "CFFT" => new CFFTFlight(flightNumber, origin, destination, time, "On Time", ""),
-                                "DDJB" => new DDJBFlight(flightNumber, origin, destination, time, "On Time", ""),
-                                "LWTT" => new LWTTFlight(flightNumber, origin, destination, time, "On Time", ""),
-                                _ => null // Skip invalid special request codes
-                            };
+                            
 
-                            if (flight != null && !flights.ContainsKey(flightNumber))
-                            {
-                                flights.Add(flightNumber, flight);
-                                count++;
-                            }
+                          
                         }
                     }
                 }
