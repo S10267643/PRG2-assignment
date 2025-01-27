@@ -1,24 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace prg2_assignment
 {
     public class Terminal
     {
-        public string TerminalName { get; set; }
-        public Dictionary<string, Airline> Airlines { get; private set; } = new Dictionary<string, Airline>();
-        public Dictionary<string, Flight> Flights { get; private set; } = new Dictionary<string, Flight>();
-        public Dictionary<string, BoardingGate> BoardingGates { get; private set; } = new Dictionary<string, BoardingGate>();
-        public Dictionary<string, double> GateFees { get; private set; } = new Dictionary<string, double>();
+        public string TerminalName { get; private set; }
+        public Dictionary<string, Airline> Airlines { get; private set; }
+        public Dictionary<string, BoardingGate> BoardingGates { get; private set; }
+        public Dictionary<string, Flight> Flights { get; private set; }
 
-        public Terminal(string name)
+        public Terminal(string terminalName)
         {
-            TerminalName = name;
+            TerminalName = terminalName;
+            Airlines = new Dictionary<string, Airline>();
+            BoardingGates = new Dictionary<string, BoardingGate>();
+            Flights = new Dictionary<string, Flight>();
         }
 
+        /// <summary>
+        /// Adds an airline to the terminal.
+        /// </summary>
         public bool AddAirline(Airline airline)
         {
             if (!Airlines.ContainsKey(airline.Code))
@@ -29,6 +32,9 @@ namespace prg2_assignment
             return false;
         }
 
+        /// <summary>
+        /// Adds a boarding gate to the terminal.
+        /// </summary>
         public bool AddBoardingGate(BoardingGate gate)
         {
             if (!BoardingGates.ContainsKey(gate.GateName))
@@ -39,46 +45,87 @@ namespace prg2_assignment
             return false;
         }
 
-        public Airline GetAirlineFromFlight(Flight flight)
+        /// <summary>
+        /// Adds a flight to the terminal and associates it with an airline if applicable.
+        /// </summary>
+        public bool AddFlight(Flight flight)
         {
-            return Airlines.ContainsKey(flight.AirlineName) ? Airlines[flight.AirlineName] : null;
-        }
-
-        public override string ToString()
-        {
-            return $"Terminal {TerminalName} hosts {Airlines.Count} airlines.";
-        }
-
-        public void PrintAirlineFees()
-        {
-            foreach (var airline in Airlines)
+            if (!Flights.ContainsKey(flight.FlightNumber))
             {
-                double totalFees = 0;
-                int countFlights = airline.Value.Flights.Count;
+                Flights.Add(flight.FlightNumber, flight);
 
-                foreach (var flight in airline.Value.Flights.Values)
+                // Associate the flight with its airline
+                if (Airlines.ContainsKey(flight.AirlineName))
                 {
-                    totalFees += flight.CalculateFees();
+                    Airlines[flight.AirlineName].Flights[flight.FlightNumber] = flight;
                 }
+                return true;
+            }
+            return false;
+        }
 
-                // Applying promotions
-                double discount = 0;
-                discount += (countFlights / 3) * 350; // $350 discount for every 3 flights
-                foreach (var flight in airline.Value.Flights.Values)
-                {
-                    if (flight.ExpectedTime.Hour < 11 || flight.ExpectedTime.Hour > 21)
-                        discount += 110; // Early or late flight discount
-                    if (flight.Origin == "DXB" || flight.Origin == "BKK" || flight.Origin == "NRT")
-                        discount += 25; // Specific origin discount
-                    if (string.IsNullOrEmpty(flight.Status)) // Assuming no special request is marked by empty status
-                        discount += 50;
-                }
-                if (countFlights > 5)
-                    discount += totalFees * 0.03; // 3% off the total bill for more than 5 flights
+        /// <summary>
+        /// Displays the loaded airlines, boarding gates, and flights.
+        /// </summary>
+        public void DisplayLoadedData()
+        {
+            Console.WriteLine($"{Airlines.Count} Airlines Loaded!");
+            Console.WriteLine($"{BoardingGates.Count} Boarding Gates Loaded!");
+            Console.WriteLine($"{Flights.Count} Flights Loaded!");
+        }
 
-                Console.WriteLine($"{airline.Key} owes: {totalFees - discount} in fees after discounts.");
+        /// <summary>
+        /// Lists all flights with basic information.
+        /// </summary>
+        public void ListAllFlights()
+        {
+            Console.WriteLine("=============================================");
+            Console.WriteLine("List of Flights for Changi Airport Terminal 5");
+            Console.WriteLine("=============================================");
+            Console.WriteLine("Flight Number   Airline Name           Origin                 Destination            Expected Time");
+            foreach (var flight in Flights.Values.OrderBy(f => f.ExpectedTime))
+            {
+                Console.WriteLine($"{flight.FlightNumber,-15} {flight.AirlineName,-20} {flight.Origin,-20} {flight.Destination,-20} {flight.ExpectedTime:g}");
+            }
+        }
+
+        /// <summary>
+        /// Lists all boarding gates and their supported special request codes.
+        /// </summary>
+        public void ListAllBoardingGates()
+        {
+            Console.WriteLine("=============================================");
+            Console.WriteLine("List of Boarding Gates for Changi Airport Terminal 5");
+            Console.WriteLine("=============================================");
+            Console.WriteLine("Gate Name       DDJB                   CFFT                   LWTT");
+            foreach (var gate in BoardingGates.Values)
+            {
+                Console.WriteLine($"{gate.GateName,-15} {gate.SupportsDDJB,-20} {gate.SupportsCFFT,-20} {gate.SupportsLWTT,-20}");
+            }
+        }
+
+        /// <summary>
+        /// Assigns a boarding gate to a flight.
+        /// </summary>
+        public void AssignBoardingGateToFlight(string flightNumber, string gateName)
+        {
+            if (Flights.ContainsKey(flightNumber) && BoardingGates.ContainsKey(gateName))
+            {
+                var flight = Flights[flightNumber];
+                var gate = BoardingGates[gateName];
+
+                Console.WriteLine("Flight Details:");
+                Console.WriteLine($"Flight Number: {flight.FlightNumber}");
+                Console.WriteLine($"Origin: {flight.Origin}");
+                Console.WriteLine($"Destination: {flight.Destination}");
+                Console.WriteLine($"Expected Time: {flight.ExpectedTime:g}");
+                Console.WriteLine($"Special Request Code: {(flight is CFFTFlight ? "CFFT" : flight is DDJBFlight ? "DDJB" : flight is LWTTFlight ? "LWTT" : "None")}");
+                Console.WriteLine($"Assigned Boarding Gate: {gate.GateName}");
+            }
+            else
+            {
+                Console.WriteLine("Invalid flight number or gate name.");
             }
         }
     }
-
 }
