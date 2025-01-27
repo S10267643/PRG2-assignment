@@ -8,8 +8,8 @@ namespace prg2_assignment
 {
     public class CFFTFlight : Flight
     {
-        public CFFTFlight(string flightNumber, string origin, string destination, DateTime expectedTime, string status)
-            : base(flightNumber, origin, destination, expectedTime, status) { }
+        public CFFTFlight(string flightNumber, string origin, string destination, DateTime expectedTime, string status, string airlineName)
+            : base(flightNumber, origin, destination, expectedTime, status, airlineName) { }
 
         public override double CalculateFees()
         {
