@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace prg2_assignment
 {
@@ -15,7 +11,7 @@ namespace prg2_assignment
         public string Status { get; private set; }
         public string AirlineName { get; private set; }
 
-        public Flight(string flightNumber, string origin, string destination, DateTime expectedTime, string status, string airlineName)
+        protected Flight(string flightNumber, string origin, string destination, DateTime expectedTime, string status, string airlineName)
         {
             FlightNumber = flightNumber;
             Origin = origin;
@@ -24,26 +20,6 @@ namespace prg2_assignment
             Status = status;
             AirlineName = airlineName;
         }
-
-        public virtual double CalculateFees()
-        {
-            double fee = 0;
-            if (Destination == "SIN")
-            {
-                fee += 500; // Arriving flight fee
-            }
-            if (Origin == "SIN")
-            {
-                fee += 800; // Departing flight fee
-            }
-            fee += 300; // Base gate fee
-            return fee;
-        }
-
-        public override string ToString()
-        {
-            return $"Flight {FlightNumber} from {Origin} to {Destination}, due {ExpectedTime:g}, Status: {Status}";
-        }
     }
-
 }
+

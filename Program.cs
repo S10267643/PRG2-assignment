@@ -18,25 +18,28 @@ using System.IO;
 
 
 
-class Program
+
+namespace prg2_assignment
 {
-    static void Main()
+    class Program
     {
-        var airlines = new Dictionary<string, Airline>();
-        var gates = new Dictionary<string, BoardingGate>();
-        var flights = new Dictionary<string, Flight>();
+        static void Main()
+        {
+            var airlines = new Dictionary<string, Airline>();
+            var gates = new Dictionary<string, BoardingGate>();
+            var flights = new Dictionary<string, Flight>();
 
-        int airlinesLoaded = DataLoader.LoadAirlines("airlines.csv", airlines);
-        int gatesLoaded = DataLoader.LoadBoardingGates("boardinggates.csv", gates);
-        int flightsLoaded = DataLoader.LoadFlights("flights.csv", flights);
+            Console.WriteLine("Loading Airlines...");
+            int airlineCount = DataLoader.LoadAirlines("airlines.csv", airlines);
+            Console.WriteLine($"{airlineCount} Airlines Loaded!");
 
-        Console.WriteLine("Loading Airlines...");
-        Console.WriteLine($"{airlinesLoaded} Airlines Loaded!");
+            Console.WriteLine("Loading Boarding Gates...");
+            int gateCount = DataLoader.LoadBoardingGates("boardinggates.csv", gates);
+            Console.WriteLine($"{gateCount} Boarding Gates Loaded!");
 
-        Console.WriteLine("Loading Boarding Gates...");
-        Console.WriteLine($"{gatesLoaded} Boarding Gates Loaded!");
-
-        Console.WriteLine("Loading Flights...");
-        Console.WriteLine($"{flightsLoaded} Flights Loaded!");
+            Console.WriteLine("Loading Flights...");
+            int flightCount = DataLoader.LoadFlights("flights.csv", flights);
+            Console.WriteLine($"{flightCount} Flights Loaded!");
+        }
     }
 }

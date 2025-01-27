@@ -1,23 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using prg2_assignment;
 
-namespace prg2_assignment
+public class DDJBFlight : Flight
 {
-    public class DDJBFlight : Flight
-    {
-        public DDJBFlight(string flightNumber, string origin, string destination, DateTime expectedTime, string status, string airlineName)
-            : base(flightNumber, origin, destination, expectedTime, status, airlineName) { }
-
-        public override double CalculateFees()
-        {
-            return base.CalculateFees() + 300;  // Additional fee for DDJB
-        }
-        public override string ToString()
-        {
-            return $"{base.ToString()}, with DDJB support.";
-        }
-    }
+    public DDJBFlight(string flightNumber, string origin, string destination, DateTime expectedTime, string status, string airlineName)
+        : base(flightNumber, origin, destination, expectedTime, status, airlineName) { }
 }

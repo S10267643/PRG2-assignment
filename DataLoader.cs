@@ -4,7 +4,7 @@ using System.IO;
 
 namespace prg2_assignment
 {
-    public class DataLoader
+    public static class DataLoader
     {
         public static int LoadAirlines(string filepath, Dictionary<string, Airline> airlines)
         {
@@ -17,16 +17,14 @@ namespace prg2_assignment
                     while (!reader.EndOfStream)
                     {
                         var line = reader.ReadLine();
-                        if (string.IsNullOrWhiteSpace(line)) continue;
-
                         var values = line.Split(',');
                         if (values.Length >= 2)
                         {
-                            var airlineCode = values[1].Trim();
-                            var airlineName = values[0].Trim();
-                            if (!airlines.ContainsKey(airlineCode))
+                            var code = values[1].Trim();
+                            var name = values[0].Trim();
+                            if (!airlines.ContainsKey(code))
                             {
-                                airlines.Add(airlineCode, new Airline(airlineCode, airlineName));
+                                airlines.Add(code, new Airline(code, name));
                                 count++;
                             }
                         }
@@ -51,21 +49,16 @@ namespace prg2_assignment
                     while (!reader.EndOfStream)
                     {
                         var line = reader.ReadLine();
-                        if (string.IsNullOrWhiteSpace(line)) continue;
-
                         var values = line.Split(',');
                         if (values.Length >= 4)
                         {
                             var gateName = values[0].Trim();
-                            var supportsDDJB = bool.TryParse(values[1].Trim(), out var ddjb) && ddjb;
-                            var supportsCFFT = bool.TryParse(values[2].Trim(), out var cfft) && cfft;
-                            var supportsLWTT = bool.TryParse(values[3].Trim(), out var lwtt) && lwtt;
+                            var supportsDDJB = bool.Parse(values[1].Trim());
+                            var supportsCFFT = bool.Parse(values[2].Trim());
+                            var supportsLWTT = bool.Parse(values[3].Trim());
 
-                            if (!gates.ContainsKey(gateName))
-                            {
-                                gates.Add(gateName, new BoardingGate(gateName, supportsCFFT, supportsDDJB, supportsLWTT));
-                                count++;
-                            }
+                            gates.Add(gateName, new BoardingGate(gateName, supportsCFFT, supportsDDJB, supportsLWTT));
+                            count++;
                         }
                     }
                 }
@@ -88,30 +81,25 @@ namespace prg2_assignment
                     while (!reader.EndOfStream)
                     {
                         var line = reader.ReadLine();
-                        if (string.IsNullOrWhiteSpace(line)) continue;
-
                         var values = line.Split(',');
                         if (values.Length >= 5)
                         {
                             var flightNumber = values[0].Trim();
                             var origin = values[1].Trim();
                             var destination = values[2].Trim();
-                            var expectedTime = DateTime.TryParse(values[3].Trim(), out var time) ? time : default;
+                            var expectedTime = DateTime.Parse(values[3].Trim());
                             var specialRequest = values[4].Trim();
 
                             Flight flight = specialRequest switch
                             {
-                                "CFFT" => new CFFTFlight(flightNumber, origin, destination, time, "On Time", ""),
-                                "DDJB" => new DDJBFlight(flightNumber, origin, destination, time, "On Time", ""),
-                                "LWTT" => new LWTTFlight(flightNumber, origin, destination, time, "On Time", ""),
-                                _ => null
+                                "CFFT" => new CFFTFlight(flightNumber, origin, destination, expectedTime, "On Time", ""),
+                                "DDJB" => new DDJBFlight(flightNumber, origin, destination, expectedTime, "On Time", ""),
+                                "LWTT" => new LWTTFlight(flightNumber, origin, destination, expectedTime, "On Time", ""),
+                                _ => new LWTTFlight(flightNumber, origin, destination, expectedTime, "On Time", "")
                             };
 
-                            if (flight != null && !flights.ContainsKey(flightNumber))
-                            {
-                                flights.Add(flightNumber, flight);
-                                count++;
-                            }
+                            flights.Add(flightNumber, flight);
+                            count++;
                         }
                     }
                 }
