@@ -18,40 +18,25 @@ using System.IO;
 
 
 
-
-
-
 class Program
 {
     static void Main()
     {
         var airlines = new Dictionary<string, Airline>();
-        DataLoader.LoadAirlines("airlines.csv", airlines);
-
         var gates = new Dictionary<string, BoardingGate>();
-        DataLoader.LoadBoardingGates("boardinggates.csv", gates);
-
         var flights = new Dictionary<string, Flight>();
-        DataLoader.LoadFlights("flights.csv", flights);
 
-        // Display loaded data
-        Console.WriteLine("Airlines loaded:");
-        foreach (var airline in airlines.Values)
-        {
-            Console.WriteLine(airline);
-        }
+        int airlinesLoaded = DataLoader.LoadAirlines("airlines.csv", airlines);
+        int gatesLoaded = DataLoader.LoadBoardingGates("boardinggates.csv", gates);
+        int flightsLoaded = DataLoader.LoadFlights("flights.csv", flights);
 
-        Console.WriteLine("Gates loaded:");
-        foreach (var gate in gates.Values)
-        {
-            Console.WriteLine(gate);
-        }
+        Console.WriteLine("Loading Airlines...");
+        Console.WriteLine($"{airlinesLoaded} Airlines Loaded!");
 
-        Console.WriteLine("Flights loaded:");
-        foreach (var flight in flights.Values)
-        {
-            Console.WriteLine(flight);
-        }
+        Console.WriteLine("Loading Boarding Gates...");
+        Console.WriteLine($"{gatesLoaded} Boarding Gates Loaded!");
+
+        Console.WriteLine("Loading Flights...");
+        Console.WriteLine($"{flightsLoaded} Flights Loaded!");
     }
 }
-

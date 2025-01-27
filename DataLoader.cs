@@ -6,9 +6,8 @@ namespace prg2_assignment
 {
     public class DataLoader
     {
-        public static void LoadAirlines(string filepath, Dictionary<string, Airline> airlines)
+        public static int LoadAirlines(string filepath, Dictionary<string, Airline> airlines)
         {
-            Console.WriteLine("Loading Airlines...");
             int count = 0;
             try
             {
@@ -33,17 +32,16 @@ namespace prg2_assignment
                         }
                     }
                 }
-                Console.WriteLine($"{count} Airlines Loaded!");
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error loading airlines: {ex.Message}");
             }
+            return count;
         }
 
-        public static void LoadBoardingGates(string filepath, Dictionary<string, BoardingGate> gates)
+        public static int LoadBoardingGates(string filepath, Dictionary<string, BoardingGate> gates)
         {
-            Console.WriteLine("Loading Boarding Gates...");
             int count = 0;
             try
             {
@@ -71,17 +69,16 @@ namespace prg2_assignment
                         }
                     }
                 }
-                Console.WriteLine($"{count} Boarding Gates Loaded!");
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error loading boarding gates: {ex.Message}");
             }
+            return count;
         }
 
-        public static void LoadFlights(string filepath, Dictionary<string, Flight> flights)
+        public static int LoadFlights(string filepath, Dictionary<string, Flight> flights)
         {
-            Console.WriteLine("Loading Flights...");
             int count = 0;
             try
             {
@@ -102,18 +99,28 @@ namespace prg2_assignment
                             var expectedTime = DateTime.TryParse(values[3].Trim(), out var time) ? time : default;
                             var specialRequest = values[4].Trim();
 
-                            
+                            Flight flight = specialRequest switch
+                            {
+                                "CFFT" => new CFFTFlight(flightNumber, origin, destination, time, "On Time", ""),
+                                "DDJB" => new DDJBFlight(flightNumber, origin, destination, time, "On Time", ""),
+                                "LWTT" => new LWTTFlight(flightNumber, origin, destination, time, "On Time", ""),
+                                _ => null
+                            };
 
-                          
+                            if (flight != null && !flights.ContainsKey(flightNumber))
+                            {
+                                flights.Add(flightNumber, flight);
+                                count++;
+                            }
                         }
                     }
                 }
-                Console.WriteLine($"{count} Flights Loaded!");
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error loading flights: {ex.Message}");
             }
+            return count;
         }
     }
 }
