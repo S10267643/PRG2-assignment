@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace prg2_assignment
 {
@@ -10,48 +8,129 @@ namespace prg2_assignment
     {
         public static void LoadAirlines(string filepath, Dictionary<string, Airline> airlines)
         {
-            using (var reader = new StreamReader(filepath))
+            try
             {
-                reader.ReadLine(); // Assuming the first line is headers
-                while (!reader.EndOfStream)
+                using (var reader = new StreamReader(filepath))
                 {
-                    var line = reader.ReadLine();
-                    var values = line.Split(',');
-                    var airline = new Airline(values[0], values[1]);
-                    airlines.Add(airline.Code, airline);
+                    // Skip the header row
+                    reader.ReadLine();
+                    while (!reader.EndOfStream)
+                    {
+                        var line = reader.ReadLine();
+                        if (string.IsNullOrWhiteSpace(line)) continue;
+
+                        var values = line.Split(',');
+
+                        // Validate column count
+                        if (values.Length >= 2)
+                        {
+                            var airlineCode = values[1].Trim();
+                            var airlineName = values[0].Trim();
+                            if (!airlines.ContainsKey(airlineCode))
+                            {
+                                airlines.Add(airlineCode, new Airline(airlineCode, airlineName));
+                            }
+                        }
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading airlines: {ex.Message}");
             }
         }
 
         public static void LoadBoardingGates(string filepath, Dictionary<string, BoardingGate> gates)
         {
-            using (var reader = new StreamReader(filepath))
+            try
             {
-                reader.ReadLine(); // Assuming the first line is headers
-                while (!reader.EndOfStream)
+                using (var reader = new StreamReader(filepath))
                 {
-                    var line = reader.ReadLine();
-                    var values = line.Split(',');
-                    var gate = new BoardingGate(values[0], bool.Parse(values[1]), bool.Parse(values[2]), bool.Parse(values[3]));
-                    gates.Add(gate.GateName, gate);
+                    // Skip the header row
+                    reader.ReadLine();
+                    while (!reader.EndOfStream)
+                    {
+                        var line = reader.ReadLine();
+                        if (string.IsNullOrWhiteSpace(line)) continue;
+
+                        var values = line.Split(',');
+
+                        // Validate column count
+                        if (values.Length >= 4)
+                        {
+                            var gateName = values[0].Trim();
+                            var supportsDDJB = bool.TryParse(values[1].Trim(), out var ddjb) && ddjb;
+                            var supportsCFFT = bool.TryParse(values[2].Trim(), out var cfft) && cfft;
+                            var supportsLWTT = bool.TryParse(values[3].Trim(), out var lwtt) && lwtt;
+
+                            if (!gates.ContainsKey(gateName))
+                            {
+                                gates.Add(gateName, new BoardingGate(gateName, supportsCFFT, supportsDDJB, supportsLWTT));
+                            }
+                        }
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading boarding gates: {ex.Message}");
             }
         }
 
         public static void LoadFlights(string filepath, Dictionary<string, Flight> flights)
         {
-            using (var reader = new StreamReader(filepath))
+            try
             {
-                reader.ReadLine(); // Assuming the first line is headers
-                while (!reader.EndOfStream)
+                using (var reader = new StreamReader(filepath))
                 {
-                    var line = reader.ReadLine();
-                    var values = line.Split(',');
-                    DateTime expectedTime = DateTime.Parse(values[3]);
-                    Flight flight = new LWTTFlight(values[0], values[1], values[2], expectedTime, values[4], values[5]);
-                    flights.Add(flight.FlightNumber, flight);
+                    // Skip the header row
+                    reader.ReadLine();
+                    while (!reader.EndOfStream)
+                    {
+                        var line = reader.ReadLine();
+                        if (string.IsNullOrWhiteSpace(line)) continue;
+
+                        var values = line.Split(',');
+
+                        // Validate column count
+                        if (values.Length >= 5)
+                        {
+                            var flightNumber = values[0].Trim();
+                            var origin = values[1].Trim();
+                            var destination = values[2].Trim();
+                            var expectedTime = DateTime.TryParse(values[3].Trim(), out var time) ? time : default;
+                            var specialRequest = values[4].Trim();
+
+                            Flight flight;
+                            switch (specialRequest)
+                            {
+                                case "CFFT":
+                                    flight = new CFFTFlight(flightNumber, origin, destination, expectedTime, "On Time", "");
+                                    break;
+                                case "DDJB":
+                                    flight = new DDJBFlight(flightNumber, origin, destination, expectedTime, "On Time", "");
+                                    break;
+                                case "LWTT":
+                                    flight = new LWTTFlight(flightNumber, origin, destination, expectedTime, "On Time", "");
+                                    break;
+                                default:
+                                    flight = new LWTTFlight(flightNumber, origin, destination, expectedTime, "On Time", "");
+                                    break;
+                            }
+
+                            if (!flights.ContainsKey(flightNumber))
+                            {
+                                flights.Add(flightNumber, flight);
+                            }
+                        }
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading flights: {ex.Message}");
             }
         }
     }
 }
+
