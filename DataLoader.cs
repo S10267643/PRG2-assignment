@@ -8,20 +8,19 @@ namespace prg2_assignment
     {
         public static void LoadAirlines(string filepath, Dictionary<string, Airline> airlines)
         {
+            Console.WriteLine("Loading Airlines...");
+            int count = 0;
             try
             {
                 using (var reader = new StreamReader(filepath))
                 {
-                    // Skip the header row
-                    reader.ReadLine();
+                    reader.ReadLine(); // Skip header row
                     while (!reader.EndOfStream)
                     {
                         var line = reader.ReadLine();
                         if (string.IsNullOrWhiteSpace(line)) continue;
 
                         var values = line.Split(',');
-
-                        // Validate column count
                         if (values.Length >= 2)
                         {
                             var airlineCode = values[1].Trim();
@@ -29,10 +28,12 @@ namespace prg2_assignment
                             if (!airlines.ContainsKey(airlineCode))
                             {
                                 airlines.Add(airlineCode, new Airline(airlineCode, airlineName));
+                                count++;
                             }
                         }
                     }
                 }
+                Console.WriteLine($"{count} Airlines Loaded!");
             }
             catch (Exception ex)
             {
@@ -42,20 +43,19 @@ namespace prg2_assignment
 
         public static void LoadBoardingGates(string filepath, Dictionary<string, BoardingGate> gates)
         {
+            Console.WriteLine("Loading Boarding Gates...");
+            int count = 0;
             try
             {
                 using (var reader = new StreamReader(filepath))
                 {
-                    // Skip the header row
-                    reader.ReadLine();
+                    reader.ReadLine(); // Skip header row
                     while (!reader.EndOfStream)
                     {
                         var line = reader.ReadLine();
                         if (string.IsNullOrWhiteSpace(line)) continue;
 
                         var values = line.Split(',');
-
-                        // Validate column count
                         if (values.Length >= 4)
                         {
                             var gateName = values[0].Trim();
@@ -66,10 +66,12 @@ namespace prg2_assignment
                             if (!gates.ContainsKey(gateName))
                             {
                                 gates.Add(gateName, new BoardingGate(gateName, supportsCFFT, supportsDDJB, supportsLWTT));
+                                count++;
                             }
                         }
                     }
                 }
+                Console.WriteLine($"{count} Boarding Gates Loaded!");
             }
             catch (Exception ex)
             {
@@ -79,20 +81,19 @@ namespace prg2_assignment
 
         public static void LoadFlights(string filepath, Dictionary<string, Flight> flights)
         {
+            Console.WriteLine("Loading Flights...");
+            int count = 0;
             try
             {
                 using (var reader = new StreamReader(filepath))
                 {
-                    // Skip the header row
-                    reader.ReadLine();
+                    reader.ReadLine(); // Skip header row
                     while (!reader.EndOfStream)
                     {
                         var line = reader.ReadLine();
                         if (string.IsNullOrWhiteSpace(line)) continue;
 
                         var values = line.Split(',');
-
-                        // Validate column count
                         if (values.Length >= 5)
                         {
                             var flightNumber = values[0].Trim();
@@ -101,36 +102,30 @@ namespace prg2_assignment
                             var expectedTime = DateTime.TryParse(values[3].Trim(), out var time) ? time : default;
                             var specialRequest = values[4].Trim();
 
-                            Flight flight;
-                            switch (specialRequest)
+                            // Instantiate the appropriate subclass based on the special request
+                            Flight flight = specialRequest switch
                             {
-                                case "CFFT":
-                                    flight = new CFFTFlight(flightNumber, origin, destination, expectedTime, "On Time", "");
-                                    break;
-                                case "DDJB":
-                                    flight = new DDJBFlight(flightNumber, origin, destination, expectedTime, "On Time", "");
-                                    break;
-                                case "LWTT":
-                                    flight = new LWTTFlight(flightNumber, origin, destination, expectedTime, "On Time", "");
-                                    break;
-                                default:
-                                    flight = new LWTTFlight(flightNumber, origin, destination, expectedTime, "On Time", "");
-                                    break;
-                            }
+                                "CFFT" => new CFFTFlight(flightNumber, origin, destination, time, "On Time", ""),
+                                "DDJB" => new DDJBFlight(flightNumber, origin, destination, time, "On Time", ""),
+                                "LWTT" => new LWTTFlight(flightNumber, origin, destination, time, "On Time", ""),
+                                _ => null // Skip invalid special request codes
+                            };
 
-                            if (!flights.ContainsKey(flightNumber))
+                            if (flight != null && !flights.ContainsKey(flightNumber))
                             {
                                 flights.Add(flightNumber, flight);
+                                count++;
                             }
                         }
                     }
                 }
+                Console.WriteLine($"{count} Flights Loaded!");
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error loading flights: {ex.Message}");
             }
         }
+
     }
 }
-
