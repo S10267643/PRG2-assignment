@@ -42,16 +42,16 @@ class Program
                     terminal.AssignBoardingGate();
                     break;
                 case "4":
-                    terminal.CreateFlight();
+                   // terminal.CreateFlight();
                     break;
                 case "5":
-                    terminal.DisplayAirlineFlights();
+                   // terminal.DisplayAirlineFlights();
                     break;
                 case "6":
-                    terminal.ModifyFlightDetails();
+                   // terminal.ModifyFlightDetails();
                     break;
                 case "7":
-                    terminal.DisplayFlightSchedule();
+                   // terminal.DisplayFlightSchedule();
                     break;
                 case "0":
                     Console.WriteLine("Exiting program...");
