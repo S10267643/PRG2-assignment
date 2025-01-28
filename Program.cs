@@ -4,10 +4,6 @@ class Program
 {
     static void Main()
     {
-        Console.WriteLine("=============================================");
-        Console.WriteLine("Welcome to Changi Airport Terminal 5");
-        Console.WriteLine("=============================================");
-
         // Automatically Load Data
         DataLoader dataLoader = new DataLoader();
         dataLoader.LoadData();
@@ -16,6 +12,12 @@ class Program
         foreach (var airline in dataLoader.Airlines.Values) terminal.AddAirline(airline);
         foreach (var gate in dataLoader.BoardingGates.Values) terminal.AddBoardingGate(gate);
         foreach (var flight in dataLoader.Flights.Values) terminal.AddFlight(flight);
+
+        Console.WriteLine("=============================================");
+        Console.WriteLine("Welcome to Changi Airport Terminal 5");
+        Console.WriteLine("=============================================");
+
+        
 
         while (true)
         {
