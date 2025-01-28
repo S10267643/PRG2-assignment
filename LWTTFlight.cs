@@ -1,17 +1,10 @@
-﻿using prg2_assignment;
-using System.Globalization;
-
-public class LWTTFlight : Flight
+﻿class LWTTFlight : Flight
 {
-    public double requestFee {  get; set; }
-    
-    public override double CalculateFees()
-    {
+    public LWTTFlight(string flightNumber, string origin, string destination, string time, string status, string airlineCode)
+        : base(flightNumber, origin, destination, time, status, airlineCode) { }
 
-    }
-    public override string ToString()
+    public override void DisplayFlightInfo()
     {
-
+        Console.WriteLine($"{FlightNumber,-10} {Origin,-10} {Destination,-10} {Time,-8} {Status,-10} {GateName ?? "No Gate"}");
     }
-    
 }

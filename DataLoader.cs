@@ -1,54 +1,67 @@
-﻿using prg2_assignment;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 
-public static class DataLoader
+class DataLoader
 {
-    public static void LoadAirlines(string filePath, Dictionary<string, Airline> airlines)
+    public Dictionary<string, Airline> Airlines { get; private set; } = new Dictionary<string, Airline>();
+    public Dictionary<string, BoardingGate> BoardingGates { get; private set; } = new Dictionary<string, BoardingGate>();
+    public Dictionary<string, Flight> Flights { get; private set; } = new Dictionary<string, Flight>();
+
+    public void LoadData()
     {
-        foreach (var line in File.ReadAllLines(filePath))
-        {
-            var parts = line.Split(',');
-            if (parts.Length == 2)
-            {
-                airlines[parts[0]] = new Airline(parts[0], parts[1]);
-            }
-        }
-        Console.WriteLine($"Loaded {airlines.Count} Airlines.");
+        LoadAirlines("airlines.csv");
+        LoadBoardingGates("boardinggates.csv");
+        LoadFlights("flights.csv");
+
+        Console.WriteLine($"Total Airlines Loaded: {Airlines.Count}");
+        Console.WriteLine($"Total Boarding Gates Loaded: {BoardingGates.Count}");
+        Console.WriteLine($"Total Flights Loaded: {Flights.Count}");
     }
 
-    public static void LoadBoardingGates(string filePath, Dictionary<string, BoardingGate> boardingGates)
+    private void LoadAirlines(string filePath)
     {
         foreach (var line in File.ReadAllLines(filePath))
         {
-            boardingGates[line] = new BoardingGate(line);
+            string[] parts = line.Split(',');
+            if (parts.Length < 2) continue;
+
+            string code = parts[0].Trim();
+            string name = parts[1].Trim();
+
+            Airlines[code] = new Airline(code, name);
         }
-        Console.WriteLine($"Loaded {boardingGates.Count} Boarding Gates.");
     }
 
-    public static void LoadFlights(string filePath, Dictionary<string, Flight> flights, Dictionary<string, Airline> airlines)
+    private void LoadBoardingGates(string filePath)
     {
         foreach (var line in File.ReadAllLines(filePath))
         {
-            var parts = line.Split(',');
-            if (parts.Length >= 5 && airlines.ContainsKey(parts[1]))
+            string gateName = line.Trim();
+            if (!string.IsNullOrEmpty(gateName))
             {
-                Airline airline = airlines[parts[1]];
-                Flight flight = parts[5] switch
-                {
-                    "CFFT" => new CFFTFlight(parts[0], airline, parts[2], parts[3], parts[4], "On Time", null),
-                    "DDJB" => new DDJBFlight(parts[0], airline, parts[2], parts[3], parts[4], "On Time", null),
-                    "LWTT" => new LWTTFlight(parts[0], airline, parts[2], parts[3], parts[4], "On Time", null),
-                    _ => null
-                };
-
-                if (flight != null)
-                {
-                    flights[flight.FlightNumber] = flight;
-                }
+                BoardingGates[gateName] = new BoardingGate(gateName);
             }
         }
-        Console.WriteLine($"Loaded {flights.Count} Flights.");
+    }
+
+    private void LoadFlights(string filePath)
+    {
+        foreach (var line in File.ReadAllLines(filePath))
+        {
+            string[] parts = line.Split(',');
+            if (parts.Length < 5) continue;
+
+            string flightNumber = parts[0].Trim();
+            string origin = parts[1].Trim();
+            string destination = parts[2].Trim();
+            string time = parts[3].Trim();
+            string airlineCode = parts[4].Trim();
+
+            if (!Airlines.ContainsKey(airlineCode)) continue;
+
+            Flight flight = new ScheduledFlight(flightNumber, origin, destination, time, "On Time", airlineCode);
+            Flights[flightNumber] = flight;
+        }
     }
 }

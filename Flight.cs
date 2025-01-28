@@ -1,34 +1,44 @@
-﻿using System;
-using System;
-
-public abstract class Flight
+﻿abstract class Flight
 {
-    public string FlightNumber { get; protected set; }
-  
-    public string Origin { get; protected set; }
-    public string Destination { get; protected set; }
-    public string ExpectedTime { get; protected set; }
-    public string Status { get; set; }
-    public BoardingGate BoardingGate { get; set; }
+    public string FlightNumber { get; }
+    public string Origin { get; }
+    public string Destination { get; }
+    public string Time { get; private set; }
+    public string Status { get; private set; }
+    public string AirlineCode { get; }
+    public string? GateName { get; private set; }
 
-    public Flight(string flightNumber, string origin, string destination, string time, string status, BoardingGate boardingGate)
+    protected Flight(string flightNumber, string origin, string destination, string time, string status, string airlineCode)
     {
         FlightNumber = flightNumber;
-        
         Origin = origin;
         Destination = destination;
-        ExpectedTime = time;
+        Time = time;
         Status = status;
-        BoardingGate = boardingGate;
+        AirlineCode = airlineCode;
+        GateName = null;
     }
 
-    public double CalculateFees()
+    public void AssignGate(string gateName)
     {
-
-
+        GateName = gateName;
     }
-    public string ToString()
+
+    public void ModifyDetails(string newTime, string newStatus)
     {
-         
+        Time = newTime;
+        Status = newStatus;
+    }
+
+    public abstract void DisplayFlightInfo();
+}
+class ScheduledFlight : Flight
+{
+    public ScheduledFlight(string flightNumber, string origin, string destination, string time, string status, string airlineCode)
+        : base(flightNumber, origin, destination, time, status, airlineCode) { }
+
+    public override void DisplayFlightInfo()
+    {
+        Console.WriteLine($"{FlightNumber,-10} {Origin,-10} {Destination,-10} {Time,-8} {Status,-10} {GateName ?? "No Gate"}");
     }
 }

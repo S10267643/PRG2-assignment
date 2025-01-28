@@ -1,15 +1,10 @@
-﻿using prg2_assignment;
-
-public class DDJBFlight : Flight
+﻿class DDJBFlight : Flight
 {
-    public double requestFee { get; set; }
+    public DDJBFlight(string flightNumber, string origin, string destination, string time, string status, string airlineCode)
+        : base(flightNumber, origin, destination, time, status, airlineCode) { }
 
-    public override double CalculateFees()
+    public override void DisplayFlightInfo()
     {
-
-    }
-    public override string ToString()
-    {
-
+        Console.WriteLine($"{FlightNumber,-10} {Origin,-10} {Destination,-10} {Time,-8} {Status,-10} {GateName ?? "No Gate"}");
     }
 }
