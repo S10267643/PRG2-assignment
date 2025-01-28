@@ -8,19 +8,16 @@ class Program
         DataLoader dataLoader = new DataLoader();
         dataLoader.LoadData();
 
-        Terminal terminal = new Terminal();
-        foreach (var airline in dataLoader.Airlines.Values) terminal.AddAirline(airline);
-        foreach (var gate in dataLoader.BoardingGates.Values) terminal.AddBoardingGate(gate);
-        foreach (var flight in dataLoader.Flights.Values) terminal.AddFlight(flight);
+        Terminal terminal = new Terminal(dataLoader); // Pass dataLoader to Terminal
 
+        // Display Startup Message
         Console.WriteLine("=============================================");
         Console.WriteLine("Welcome to Changi Airport Terminal 5");
         Console.WriteLine("=============================================");
 
-        
-
         while (true)
         {
+            // Display Menu
             Console.WriteLine("\n1. List All Flights");
             Console.WriteLine("2. List Boarding Gates");
             Console.WriteLine("3. Assign a Boarding Gate to a Flight");
@@ -31,29 +28,30 @@ class Program
             Console.WriteLine("0. Exit");
             Console.Write("Please select your option: ");
 
+            // Read user input
             string choice = Console.ReadLine();
             switch (choice)
             {
                 case "1":
-                    terminal.ListFlights();
+                    terminal.ListAllFlights();  // ✅ Correct method name
                     break;
                 case "2":
-                    terminal.ListBoardingGates();
+                    terminal.ListBoardingGates();  // ✅ Correct method name
                     break;
                 case "3":
-                    terminal.AssignBoardingGate();
+                  //  terminal.AssignBoardingGate();
                     break;
                 case "4":
-                   // terminal.CreateFlight();
+                    // terminal.CreateFlight(); // 🚧 Not yet implemented
                     break;
                 case "5":
-                   // terminal.DisplayAirlineFlights();
+                    // terminal.DisplayAirlineFlights(); // 🚧 Not yet implemented
                     break;
                 case "6":
-                   // terminal.ModifyFlightDetails();
+                    // terminal.ModifyFlightDetails(); // 🚧 Not yet implemented
                     break;
                 case "7":
-                   // terminal.DisplayFlightSchedule();
+                    // terminal.DisplayFlightSchedule(); // 🚧 Not yet implemented
                     break;
                 case "0":
                     Console.WriteLine("Exiting program...");
@@ -65,3 +63,4 @@ class Program
         }
     }
 }
+
