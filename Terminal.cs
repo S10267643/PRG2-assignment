@@ -9,29 +9,24 @@ public class Terminal
     private Dictionary<string, Airline> Airlines { get; set; }
     private Dictionary<string, BoardingGate> BoardingGates { get; set; }
     private Dictionary<string, Flight> Flights { get; set; }
-
+    private Dictionary<string, double> gateFees { get; set; }
     // Constructor
     public Terminal()
     {
         Airlines = new Dictionary<string, Airline>();
         BoardingGates = new Dictionary<string, BoardingGate>();
         Flights = new Dictionary<string, Flight>();
+        gateFees = new Dictionary<string, double>();
     }
 
 
     public void AddAirline(Airline airline)
     {
-        if (!Airlines.ContainsKey(airline.Code))
-        {
-            Airlines.Add(airline.Code, airline);
-        }
+        
     }
     public void AddBoardingGate(BoardingGate gate)
     {
-        if (!BoardingGates.ContainsKey(gate.GateNumber))
-        {
-            BoardingGates.Add(gate.GateNumber, gate);
-        }
+        
     }
 
     // Method to Add Flight
@@ -60,7 +55,7 @@ public class Terminal
     }
 
     // ✅ Display Scheduled Flights in Chronological Order
-    public void DisplayScheduledFlights()
+    public void DisplayFlightSchedule()
     {
         if (Flights == null || Flights.Count == 0)
         {
@@ -104,6 +99,10 @@ public class Terminal
         {
             Console.WriteLine($"Error: Flight {flightNumber} not found.");
         }
+    }
+    public string ToString()
+    {
+
     }
 }
 

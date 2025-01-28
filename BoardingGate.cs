@@ -1,9 +1,9 @@
 ﻿public class BoardingGate
 {
-    public string GateNumber { get; private set; }
-
-    public BoardingGate(string gateNumber)
-    {
-        GateNumber = gateNumber;
-    }
+    
+    public string gateName {  get; set; }
+    public bool supportsCFFT { get; set; }
+    public bool supportsDDJB { get; set; }
+    public bool supportsLWTT { get; set; }
+    
 }
