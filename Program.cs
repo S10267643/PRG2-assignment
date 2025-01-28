@@ -5,6 +5,7 @@ using System.Collections.Generic;
 namespace prg2_assignment
 {
 
+    
     class Program
     {
         static void Main()
@@ -29,10 +30,14 @@ namespace prg2_assignment
             bool exit = false;
             while (!exit)
             {
-                Console.WriteLine("\n1. Display Airlines");
-                Console.WriteLine("2. Display Scheduled Flights");
+                Console.WriteLine("\n==== AIRPORT TERMINAL MANAGEMENT SYSTEM ====");
+                Console.WriteLine("1. Display Airlines");
+                Console.WriteLine("2. Display Scheduled Flights (Chronological Order)");
                 Console.WriteLine("3. Modify Flight Details");
-                Console.WriteLine("4. Exit");
+                // Console.WriteLine("4. Assign Flights to Boarding Gates");  // Not Implemented Yet
+                // Console.WriteLine("5. Remove a Flight");  // Not Implemented Yet
+                // Console.WriteLine("6. Save & Exit");  // Not Implemented Yet
+                Console.WriteLine("7. Exit Without Saving");
                 Console.Write("Enter choice: ");
 
                 string choice = Console.ReadLine();
@@ -49,11 +54,20 @@ namespace prg2_assignment
                         string flightNumber = Console.ReadLine();
                         Console.Write("Enter New Status: ");
                         string newStatus = Console.ReadLine();
-                        Console.Write("Enter New Gate: ");
+                        Console.Write("Enter New Gate (or leave blank to keep the same): ");
                         string newGate = Console.ReadLine();
                         terminal.ModifyFlightDetails(flightNumber, newStatus, newGate);
                         break;
-                    case "4":
+                    // case "4":
+                    //     Console.WriteLine("Feature not implemented yet.");
+                    //     break;
+                    // case "5":
+                    //     Console.WriteLine("Feature not implemented yet.");
+                    //     break;
+                    // case "6":
+                    //     Console.WriteLine("Feature not implemented yet.");
+                    //     break;
+                    case "7":
                         exit = true;
                         break;
                     default:
@@ -61,6 +75,9 @@ namespace prg2_assignment
                         break;
                 }
             }
+
+            Console.WriteLine("\nExiting the program. Have a great day!");
         }
     }
+
 }
