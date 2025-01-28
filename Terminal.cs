@@ -18,7 +18,7 @@ public class Terminal
         Flights = new Dictionary<string, Flight>();
     }
 
-    // Method to Add Airline
+
     public void AddAirline(Airline airline)
     {
         if (!Airlines.ContainsKey(airline.Code))
@@ -26,8 +26,6 @@ public class Terminal
             Airlines.Add(airline.Code, airline);
         }
     }
-
-    // Method to Add Boarding Gate
     public void AddBoardingGate(BoardingGate gate)
     {
         if (!BoardingGates.ContainsKey(gate.GateNumber))

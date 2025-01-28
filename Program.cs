@@ -1,6 +1,8 @@
 ﻿using prg2_assignment;
 using System;
 using System.Collections.Generic;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Numerics;
 
 namespace prg2_assignment
 {
@@ -30,48 +32,48 @@ namespace prg2_assignment
             bool exit = false;
             while (!exit)
             {
-                Console.WriteLine("\n==== AIRPORT TERMINAL MANAGEMENT SYSTEM ====");
-                Console.WriteLine("1. Display Airlines");
-                Console.WriteLine("2. Display Scheduled Flights (Chronological Order)");
-                Console.WriteLine("3. Modify Flight Details");
-                // Console.WriteLine("4. Assign Flights to Boarding Gates");  // Not Implemented Yet
-                // Console.WriteLine("5. Remove a Flight");  // Not Implemented Yet
-                // Console.WriteLine("6. Save & Exit");  // Not Implemented Yet
-                Console.WriteLine("7. Exit Without Saving");
-                Console.Write("Enter choice: ");
+                Console.WriteLine("=============================================");
+                Console.WriteLine("Welcome to Changi Airport Terminal 5");
+                Console.WriteLine("=============================================");
+                Console.WriteLine("1.List All Flights");
+                Console.WriteLine("2.List Boarding Gates");
+                Console.WriteLine("3.Assign a Boarding Gate to a Flight");
+                Console.WriteLine("4.Create Flight");
+                Console.WriteLine("5.Display Airline Flights");
+                Console.WriteLine("6.Modify Flight Details");
+                Console.WriteLine("7.Display Flight Schedule");
+                Console.WriteLine("0.Exit");
+                Console.WriteLine("Please select your option:");
+
 
                 string choice = Console.ReadLine();
                 switch (choice)
                 {
                     case "1":
-                        terminal.DisplayAirlines();
+                      //ListFlights();
                         break;
                     case "2":
-                        terminal.DisplayScheduledFlights();
+                      //ListBoardingGates();
                         break;
                     case "3":
-                        Console.Write("Enter Flight Number: ");
-                        string flightNumber = Console.ReadLine();
-                        Console.Write("Enter New Status: ");
-                        string newStatus = Console.ReadLine();
-                        Console.Write("Enter New Gate (or leave blank to keep the same): ");
-                        string newGate = Console.ReadLine();
-                        terminal.ModifyFlightDetails(flightNumber, newStatus, newGate);
+                        //assign that shit 
+                    case "4":
+                         //create dat flight
+                     case "5":
+                        //DisplayAirlinFlights();
                         break;
-                    // case "4":
-                    //     Console.WriteLine("Feature not implemented yet.");
-                    //     break;
-                    // case "5":
-                    //     Console.WriteLine("Feature not implemented yet.");
-                    //     break;
-                    // case "6":
-                    //     Console.WriteLine("Feature not implemented yet.");
-                    //     break;
+                     case "6":
+                         // ModifyFlightDetails();
+                       break;
                     case "7":
+                        //DisplayFlightSchedule();
+                        break;
+                    case "0":
                         exit = true;
                         break;
                     default:
                         Console.WriteLine("Invalid choice, please try again.");
+                        Main();
                         break;
                 }
             }
