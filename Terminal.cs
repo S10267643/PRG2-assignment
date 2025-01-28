@@ -3,64 +3,42 @@ using System.Collections.Generic;
 
 class Terminal
 {
-    private Dictionary<string, Airline> airlines = new Dictionary<string, Airline>();
-    private Dictionary<string, BoardingGate> boardingGates = new Dictionary<string, BoardingGate>();
-    private Dictionary<string, Flight> flights = new Dictionary<string, Flight>();
+    private Dictionary<string, Airline> airlines;
+    private Dictionary<string, BoardingGate> boardingGates;
+    private Dictionary<string, Flight> flights;
 
-    public void AddAirline(Airline airline)
+    public Terminal(DataLoader dataLoader)
     {
-        airlines[airline.Code] = airline;
+        airlines = dataLoader.Airlines;
+        boardingGates = dataLoader.BoardingGates;
+        flights = dataLoader.Flights;
     }
 
-    public void AddBoardingGate(BoardingGate gate)
+    public void ListAllFlights()
     {
-        boardingGates[gate.GateName] = gate;
-    }
+        Console.WriteLine("=================================================================================");
+        Console.WriteLine("Flight Number   Airline Name        Origin        Destination       Expected");
+        Console.WriteLine("=================================================================================");
 
-    public void AddFlight(Flight flight)
-    {
-        flights[flight.FlightNumber] = flight;
-    }
-
-    public void ListFlights()
-    {
-        Console.WriteLine("Flight Number | Origin | Destination | Time | Status");
-        Console.WriteLine("-----------------------------------------------------");
         foreach (var flight in flights.Values)
         {
-            Console.WriteLine($"{flight.FlightNumber,-12} {flight.Origin,-10} {flight.Destination,-12} {flight.Time,-8} {flight.Status}");
+            string airlineName = airlines.ContainsKey(flight.FlightNumber.Substring(0, 2))
+                                ? airlines[flight.FlightNumber.Substring(0, 2)].Name
+                                : "Unknown Airline";
+
+            Console.WriteLine($"{flight.FlightNumber,-15} {airlineName,-20} {flight.Origin,-15} {flight.Destination,-15} {flight.Time}");
         }
     }
 
     public void ListBoardingGates()
     {
-        Console.WriteLine("Gate Name");
-        Console.WriteLine("---------");
+        Console.WriteLine("========================");
+        Console.WriteLine("Available Boarding Gates");
+        Console.WriteLine("========================");
+
         foreach (var gate in boardingGates.Values)
         {
-            Console.WriteLine($"{gate.GateName}");
+            Console.WriteLine(gate.GateName);
         }
-    }
-
-    public void AssignBoardingGate()
-    {
-        Console.Write("Enter Flight Number: ");
-        string flightNumber = Console.ReadLine();
-        if (!flights.ContainsKey(flightNumber))
-        {
-            Console.WriteLine("Error: Flight not found.");
-            return;
-        }
-
-        Console.Write("Enter Gate Name: ");
-        string gateName = Console.ReadLine();
-        if (!boardingGates.ContainsKey(gateName))
-        {
-            Console.WriteLine("Error: Boarding gate not found.");
-            return;
-        }
-
-        flights[flightNumber].AssignGate(gateName);
-        Console.WriteLine($"Gate {gateName} assigned to Flight {flightNumber}.");
     }
 }
