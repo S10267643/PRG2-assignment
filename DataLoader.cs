@@ -20,8 +20,8 @@ namespace prg2_assignment
                         var values = line.Split(',');
                         if (values.Length >= 2)
                         {
-                            var code = values[1].Trim();
-                            var name = values[0].Trim();
+                            string code = values[1].Trim();
+                            string name = values[0].Trim();
                             if (!airlines.ContainsKey(code))
                             {
                                 airlines.Add(code, new Airline(code, name));
@@ -52,13 +52,16 @@ namespace prg2_assignment
                         var values = line.Split(',');
                         if (values.Length >= 4)
                         {
-                            var gateName = values[0].Trim();
-                            var supportsDDJB = bool.Parse(values[1].Trim());
-                            var supportsCFFT = bool.Parse(values[2].Trim());
-                            var supportsLWTT = bool.Parse(values[3].Trim());
+                            string gateName = values[0].Trim();
+                            bool supportsDDJB = bool.Parse(values[1].Trim());
+                            bool supportsCFFT = bool.Parse(values[2].Trim());
+                            bool supportsLWTT = bool.Parse(values[3].Trim());
 
-                            gates.Add(gateName, new BoardingGate(gateName, supportsCFFT, supportsDDJB, supportsLWTT));
-                            count++;
+                            if (!gates.ContainsKey(gateName))
+                            {
+                                gates.Add(gateName, new BoardingGate(gateName, supportsCFFT, supportsDDJB, supportsLWTT));
+                                count++;
+                            }
                         }
                     }
                 }
@@ -84,22 +87,25 @@ namespace prg2_assignment
                         var values = line.Split(',');
                         if (values.Length >= 5)
                         {
-                            var flightNumber = values[0].Trim();
-                            var origin = values[1].Trim();
-                            var destination = values[2].Trim();
-                            var expectedTime = DateTime.Parse(values[3].Trim());
-                            var specialRequest = values[4].Trim();
+                            string flightNumber = values[0].Trim();
+                            string origin = values[1].Trim();
+                            string destination = values[2].Trim();
+                            DateTime expectedTime = DateTime.Parse(values[3].Trim());
+                            string specialRequestCode = values[4].Trim();
 
-                            Flight flight = specialRequest switch
+                            Flight flight = specialRequestCode switch
                             {
                                 "CFFT" => new CFFTFlight(flightNumber, origin, destination, expectedTime, "On Time", ""),
                                 "DDJB" => new DDJBFlight(flightNumber, origin, destination, expectedTime, "On Time", ""),
                                 "LWTT" => new LWTTFlight(flightNumber, origin, destination, expectedTime, "On Time", ""),
-                                _ => new LWTTFlight(flightNumber, origin, destination, expectedTime, "On Time", "")
+                                _ => null
                             };
 
-                            flights.Add(flightNumber, flight);
-                            count++;
+                            if (flight != null && !flights.ContainsKey(flightNumber))
+                            {
+                                flights.Add(flightNumber, flight);
+                                count++;
+                            }
                         }
                     }
                 }
