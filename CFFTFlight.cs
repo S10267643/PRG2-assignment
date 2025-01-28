@@ -1,10 +1,12 @@
-﻿namespace prg2_assignment
+﻿using prg2_assignment;
+
+public class CFFTFlight : Flight
 {
-    public class CFFTFlight : Flight
+    public CFFTFlight(string flightNumber, Airline airline, string origin, string destination, string time, string status, BoardingGate boardingGate)
+        : base(flightNumber, airline, origin, destination, time, status, boardingGate) { }
+
+    public override void DisplayFlightInfo()
     {
-        public CFFTFlight(string flightNumber, string origin, string destination, DateTime expectedTime, string status, string airlineName)
-            : base(flightNumber, origin, destination, expectedTime, status, airlineName)
-        {
-        }
+        Console.WriteLine($"CFFT Flight: {FlightNumber}, {Origin} -> {Destination}, Time: {Time}, Status: {Status}, Gate: {BoardingGate?.GateNumber ?? "N/A"}");
     }
 }

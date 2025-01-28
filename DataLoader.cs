@@ -1,120 +1,54 @@
-﻿using System;
+﻿using prg2_assignment;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace prg2_assignment
+public static class DataLoader
 {
-    public static class DataLoader
+    public static void LoadAirlines(string filePath, Dictionary<string, Airline> airlines)
     {
-        public static int LoadAirlines(string filepath, Dictionary<string, Airline> airlines)
+        foreach (var line in File.ReadAllLines(filePath))
         {
-            int count = 0;
-            try
+            var parts = line.Split(',');
+            if (parts.Length == 2)
             {
-                using (var reader = new StreamReader(filepath))
+                airlines[parts[0]] = new Airline(parts[0], parts[1]);
+            }
+        }
+        Console.WriteLine($"Loaded {airlines.Count} Airlines.");
+    }
+
+    public static void LoadBoardingGates(string filePath, Dictionary<string, BoardingGate> boardingGates)
+    {
+        foreach (var line in File.ReadAllLines(filePath))
+        {
+            boardingGates[line] = new BoardingGate(line);
+        }
+        Console.WriteLine($"Loaded {boardingGates.Count} Boarding Gates.");
+    }
+
+    public static void LoadFlights(string filePath, Dictionary<string, Flight> flights, Dictionary<string, Airline> airlines)
+    {
+        foreach (var line in File.ReadAllLines(filePath))
+        {
+            var parts = line.Split(',');
+            if (parts.Length >= 5 && airlines.ContainsKey(parts[1]))
+            {
+                Airline airline = airlines[parts[1]];
+                Flight flight = parts[5] switch
                 {
-                    reader.ReadLine(); // Skip header row
-                    while (!reader.EndOfStream)
-                    {
-                        var line = reader.ReadLine();
-                        var values = line.Split(',');
-                        if (values.Length >= 2)
-                        {
-                            string code = values[1].Trim();
-                            string name = values[0].Trim();
-                            if (!airlines.ContainsKey(code))
-                            {
-                                airlines.Add(code, new Airline(code, name));
-                                count++;
-                            }
-                        }
-                    }
+                    "CFFT" => new CFFTFlight(parts[0], airline, parts[2], parts[3], parts[4], "On Time", null),
+                    "DDJB" => new DDJBFlight(parts[0], airline, parts[2], parts[3], parts[4], "On Time", null),
+                    "LWTT" => new LWTTFlight(parts[0], airline, parts[2], parts[3], parts[4], "On Time", null),
+                    _ => null
+                };
+
+                if (flight != null)
+                {
+                    flights[flight.FlightNumber] = flight;
                 }
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error loading airlines: {ex.Message}");
-            }
-            return count;
         }
-
-        public static int LoadBoardingGates(string filepath, Dictionary<string, BoardingGate> gates)
-        {
-            int count = 0;
-            try
-            {
-                using (var reader = new StreamReader(filepath))
-                {
-                    reader.ReadLine(); // Skip header row
-                    while (!reader.EndOfStream)
-                    {
-                        var line = reader.ReadLine();
-                        var values = line.Split(',');
-                        if (values.Length >= 4)
-                        {
-                            string gateName = values[0].Trim();
-                            bool supportsDDJB = bool.Parse(values[1].Trim());
-                            bool supportsCFFT = bool.Parse(values[2].Trim());
-                            bool supportsLWTT = bool.Parse(values[3].Trim());
-
-                            if (!gates.ContainsKey(gateName))
-                            {
-                                gates.Add(gateName, new BoardingGate(gateName, supportsCFFT, supportsDDJB, supportsLWTT));
-                                count++;
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error loading boarding gates: {ex.Message}");
-            }
-            return count;
-        }
-
-        public static int LoadFlights(string filepath, Dictionary<string, Flight> flights)
-        {
-            int count = 0;
-            try
-            {
-                using (var reader = new StreamReader(filepath))
-                {
-                    reader.ReadLine(); // Skip header row
-                    while (!reader.EndOfStream)
-                    {
-                        var line = reader.ReadLine();
-                        var values = line.Split(',');
-                        if (values.Length >= 5)
-                        {
-                            string flightNumber = values[0].Trim();
-                            string origin = values[1].Trim();
-                            string destination = values[2].Trim();
-                            DateTime expectedTime = DateTime.Parse(values[3].Trim());
-                            string specialRequestCode = values[4].Trim();
-
-                            Flight flight = specialRequestCode switch
-                            {
-                                "CFFT" => new CFFTFlight(flightNumber, origin, destination, expectedTime, "On Time", ""),
-                                "DDJB" => new DDJBFlight(flightNumber, origin, destination, expectedTime, "On Time", ""),
-                                "LWTT" => new LWTTFlight(flightNumber, origin, destination, expectedTime, "On Time", ""),
-                                _ => null
-                            };
-
-                            if (flight != null && !flights.ContainsKey(flightNumber))
-                            {
-                                flights.Add(flightNumber, flight);
-                                count++;
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error loading flights: {ex.Message}");
-            }
-            return count;
-        }
+        Console.WriteLine($"Loaded {flights.Count} Flights.");
     }
 }
