@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 
 class DataLoader
 {
     public Dictionary<string, Airline> Airlines { get; private set; }
     public Dictionary<string, BoardingGate> BoardingGates { get; private set; }
     public Dictionary<string, Flight> Flights { get; private set; }
-
+    public int count;
+    
     public DataLoader()
     {
         Airlines = new Dictionary<string, Airline>();
@@ -15,6 +17,7 @@ class DataLoader
         Flights = new Dictionary<string, Flight>();
     }
 
+    
     public void LoadData()
     {
         LoadAirlines("airlines.csv");
@@ -28,6 +31,7 @@ class DataLoader
 
         using (StreamReader sr = new StreamReader(filename))
         {
+            count = 0;
             sr.ReadLine(); // Skip header
             string line;
             while ((line = sr.ReadLine()) != null)
@@ -36,13 +40,13 @@ class DataLoader
                 if (parts.Length < 2) continue;
                 string code = parts[0].Trim();
                 string name = parts[1].Trim();
+                count++;
 
-                if (!Airlines.ContainsKey(code))
-                {
-                    Airlines[code] = new Airline(code, name);
-                }
+              
             }
         }
+        Console.WriteLine("Loading Airlines... ");
+        Console.WriteLine(count + " Airlines loaded");
     }
 
     private void LoadBoardingGates(string filename)
@@ -51,6 +55,7 @@ class DataLoader
 
         using (StreamReader sr = new StreamReader(filename))
         {
+            count = 0;
             sr.ReadLine(); // Skip header
             string line;
             while ((line = sr.ReadLine()) != null)
@@ -58,14 +63,15 @@ class DataLoader
                 string[] parts = line.Split(',');
                 if (parts.Length < 1) continue;
                 string gateName = parts[0].Trim();
-
-                if (!BoardingGates.ContainsKey(gateName))
-                {
-                    BoardingGates[gateName] = new BoardingGate(gateName);
-                }
+                count++;
+                
             }
         }
+        Console.WriteLine( "Loading BoardingGates... ");
+        Console.WriteLine(count + " Boarding Gates Loaded!");
     }
+    
+    
 
     private void LoadFlights(string filename)
     {
@@ -77,6 +83,7 @@ class DataLoader
             string line;
             while ((line = sr.ReadLine()) != null)
             {
+                count = 0;
                 string[] parts = line.Split(',');
                 if (parts.Length < 5) continue;
 
@@ -85,13 +92,12 @@ class DataLoader
                 string origin = parts[2].Trim();
                 string destination = parts[3].Trim();
                 DateTime expectedTime = DateTime.Parse(parts[4].Trim());
+                count++;
 
-                if (!Airlines.ContainsKey(airlineCode)) continue;
-
-                Airline airline = Airlines[airlineCode];
-                Flight flight = new LWTTFlight(flightNumber, airline, origin, destination, expectedTime);
-                Flights[flightNumber] = flight;
+               
             }
         }
+        Console.WriteLine("Loading Flights... ");
+        Console.WriteLine(count + " Flights Loaded");
     }
 }

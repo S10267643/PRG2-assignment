@@ -18,7 +18,10 @@ abstract class Flight
         ExpectedTime = expectedTime;
         Gate = null; 
     }
+    public void AddFlight()
+    {
 
+    }
     public void AssignGate(BoardingGate gate)
     {
         Gate = gate;

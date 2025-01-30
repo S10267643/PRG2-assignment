@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-class Airline
+public class Airline
 {
+    public string code {  get; set; }
     public string Name { get; }
     private List<Flight> flights;
 
@@ -12,11 +13,7 @@ class Airline
         flights = new List<Flight>();
     }
 
-    public void AddFlight(Flight flight)
-    {
-        flights.Add(flight);
-    }
-
+ 
     public int GetFlightCount()
     {
         return flights.Count;

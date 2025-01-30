@@ -17,11 +17,7 @@ class Program
         Console.WriteLine("Welcome to Changi Airport Terminal 5");
         Console.WriteLine("=============================================");
 
-        Console.WriteLine("\n--- Initial Flight List ---");
-        terminal.ListFlights();  // Display all flights after loading
-
-        Console.WriteLine("\n--- Initial Boarding Gates ---");
-        terminal.ListBoardingGates(); // Display boarding gates after loading
+        
 
         while (true)
         {
