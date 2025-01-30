@@ -18,9 +18,9 @@
     {
         return $"{GateName} -";
     }
-    public double CalculateFees()
+   /* public double CalculateFees()
     {
 
         return;
-    }
+    }*/
 }
