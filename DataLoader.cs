@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Globalization;
 
 class DataLoader
 {
@@ -25,105 +24,74 @@ class DataLoader
 
     private void LoadAirlines(string filename)
     {
-        try
+        if (!File.Exists(filename)) return;
+
+        using (StreamReader sr = new StreamReader(filename))
         {
-            using (StreamReader sr = new StreamReader(filename))
+            sr.ReadLine(); // Skip header
+            string line;
+            while ((line = sr.ReadLine()) != null)
             {
-                sr.ReadLine(); // Skip header row
-                string line;
-                while ((line = sr.ReadLine()) != null)
+                string[] parts = line.Split(',');
+                if (parts.Length < 2) continue;
+                string code = parts[0].Trim();
+                string name = parts[1].Trim();
+
+                if (!Airlines.ContainsKey(code))
                 {
-                    string[] parts = line.Split(',');
-                    if (parts.Length < 2) continue;
-
-                    string airlineCode = parts[0].Trim();
-                    string airlineName = parts[1].Trim();
-
-                    if (!Airlines.ContainsKey(airlineCode))
-                    {
-                        Airlines[airlineCode] = new Airline(airlineName);
-                    }
+                    Airlines[code] = new Airline(code, name);
                 }
             }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error loading airlines: {ex.Message}");
         }
     }
 
     private void LoadBoardingGates(string filename)
     {
-        try
+        if (!File.Exists(filename)) return;
+
+        using (StreamReader sr = new StreamReader(filename))
         {
-            using (StreamReader sr = new StreamReader(filename))
+            sr.ReadLine(); // Skip header
+            string line;
+            while ((line = sr.ReadLine()) != null)
             {
-                sr.ReadLine(); // Skip header row
-                string line;
-                while ((line = sr.ReadLine()) != null)
+                string[] parts = line.Split(',');
+                if (parts.Length < 1) continue;
+                string gateName = parts[0].Trim();
+
+                if (!BoardingGates.ContainsKey(gateName))
                 {
-                    string[] parts = line.Split(',');
-                    if (parts.Length < 1) continue;
-
-                    string gateName = parts[0].Trim();
-
-                    if (!BoardingGates.ContainsKey(gateName))
-                    {
-                        BoardingGates[gateName] = new BoardingGate(gateName);
-                    }
+                    BoardingGates[gateName] = new BoardingGate(gateName);
                 }
             }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error loading boarding gates: {ex.Message}");
         }
     }
 
     private void LoadFlights(string filename)
     {
-        try
+        if (!File.Exists(filename)) return;
+
+        using (StreamReader sr = new StreamReader(filename))
         {
-            using (StreamReader sr = new StreamReader(filename))
+            sr.ReadLine(); // Skip header
+            string line;
+            while ((line = sr.ReadLine()) != null)
             {
-                sr.ReadLine(); // Skip header row
-                string line;
-                while ((line = sr.ReadLine()) != null)
-                {
-                    string[] parts = line.Split(',');
-                    if (parts.Length < 5) continue;
+                string[] parts = line.Split(',');
+                if (parts.Length < 5) continue;
 
-                    string flightNumber = parts[0].Trim();
-                    string airlineCode = parts[1].Trim();
-                    string origin = parts[2].Trim();
-                    string destination = parts[3].Trim();
-                    DateTime expectedTime = DateTime.ParseExact(parts[4].Trim(), "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
+                string flightNumber = parts[0].Trim();
+                string airlineCode = parts[1].Trim();
+                string origin = parts[2].Trim();
+                string destination = parts[3].Trim();
+                DateTime expectedTime = DateTime.Parse(parts[4].Trim());
 
-                    if (Airlines.ContainsKey(airlineCode))
-                    {
-                        Flight flight;
-                        if (flightNumber.StartsWith("CFFT"))
-                        {
-                            flight = new CFFTFlight(flightNumber, Airlines[airlineCode], origin, destination, expectedTime);
-                        }
-                        else if (flightNumber.StartsWith("DDJB"))
-                        {
-                            flight = new DDJBFlight(flightNumber, Airlines[airlineCode], origin, destination, expectedTime);
-                        }
-                        else
-                        {
-                            continue; // Ignore flights with unknown prefixes
-                        }
+                if (!Airlines.ContainsKey(airlineCode)) continue;
 
-                        Flights[flightNumber] = flight;
-                        Airlines[airlineCode].AddFlight(flight);
-                    }
-                }
+                Airline airline = Airlines[airlineCode];
+                Flight flight = new LWTTFlight(flightNumber, airline, origin, destination, expectedTime);
+                Flights[flightNumber] = flight;
             }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error loading flights: {ex.Message}");
         }
     }
 }
