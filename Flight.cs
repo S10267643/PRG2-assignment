@@ -19,7 +19,7 @@ abstract class Flight
         BoardingGate = null;
     }
 
-    public virtual decimal CalculateFees()
+    public virtual double CalculateFees()
     {
         return 0; // Base method, overridden in subclasses
     }

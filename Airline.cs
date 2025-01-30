@@ -1,16 +1,24 @@
-﻿class Airline
-{
-    public string Name { get; set; }
-    public string Code { get; set; } // e.g., SQ for Singapore Airlines
+﻿using System;
+using System.Collections.Generic;
 
-    public Airline(string code, string name)
+class Airline
+{
+    public string Name { get; }
+    private List<Flight> flights;
+
+    public Airline(string name)
     {
-        Code = code;
         Name = name;
+        flights = new List<Flight>();
     }
 
-    public override string ToString()
+    public void AddFlight(Flight flight)
     {
-        return $"{Code} - {Name}";
+        flights.Add(flight);
+    }
+
+    public int GetFlightCount()
+    {
+        return flights.Count;
     }
 }

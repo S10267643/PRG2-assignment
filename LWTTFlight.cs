@@ -10,9 +10,9 @@
         SupportsCFFT = supportsCFFT;
     }
 
-    public override decimal CalculateFees()
+    public override double CalculateFees()
     {
-        return 5000; // Placeholder fee, update based on assignment rules
+        return 5000; 
     }
 
     public override string ToString()
