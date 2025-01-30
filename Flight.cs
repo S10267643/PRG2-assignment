@@ -2,12 +2,12 @@
 
 abstract class Flight
 {
-    public string FlightNumber { get; set; }
-    public Airline Airline { get; set; }
-    public string Origin { get; set; }
-    public string Destination { get; set; }
-    public DateTime ExpectedTime { get; set; }
-    public BoardingGate BoardingGate { get; set; } // Nullable, assigned later
+    public string FlightNumber { get; private set; }
+    public Airline Airline { get; private set; }
+    public string Origin { get; private set; }
+    public string Destination { get; private set; }
+    public DateTime ExpectedTime { get; private set; }
+    public BoardingGate Gate { get; private set; } 
 
     public Flight(string flightNumber, Airline airline, string origin, string destination, DateTime expectedTime)
     {
@@ -16,16 +16,18 @@ abstract class Flight
         Origin = origin;
         Destination = destination;
         ExpectedTime = expectedTime;
-        BoardingGate = null;
+        Gate = null; 
     }
 
-    public virtual double CalculateFees()
+    public void AssignGate(BoardingGate gate)
     {
-        return 0; // Base method, overridden in subclasses
+        Gate = gate;
     }
 
-    public override string ToString()
+    public virtual void DisplayInfo()
     {
-        return $"{FlightNumber,-10} {Airline.Name,-15} {Origin,-15} {Destination,-15} {ExpectedTime:yyyy-MM-dd HH:mm}";
+        Console.WriteLine($"{FlightNumber,-15} {Airline.Name,-12} {Origin,-12} {Destination,-12} {ExpectedTime:yyyy-MM-dd HH:mm} {Gate?.GateName ?? "N/A"}");
     }
+
+    public abstract double CalculateFees(); 
 }
