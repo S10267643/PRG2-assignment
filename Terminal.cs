@@ -1,44 +1,63 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 class Terminal
 {
-    private Dictionary<string, Airline> airlines;
-    private Dictionary<string, BoardingGate> boardingGates;
-    private Dictionary<string, Flight> flights;
+    private List<Flight> flights = new List<Flight>();
+    private List<BoardingGate> boardingGates = new List<BoardingGate>();
+    private Dictionary<string, Airline> airlines = new Dictionary<string, Airline>();
 
-    public Terminal(DataLoader dataLoader)
+    public void AddFlight(Flight flight) => flights.Add(flight);
+    public void AddBoardingGate(BoardingGate gate) => boardingGates.Add(gate);
+    public void AddAirline(Airline airline) => airlines[airline.Code] = airline;
+
+    public void ListFlights()
     {
-        airlines = dataLoader.Airlines;
-        boardingGates = dataLoader.BoardingGates;
-        flights = dataLoader.Flights;
-    }
-
-    public void ListAllFlights()
-    {
-        Console.WriteLine("=================================================================================");
-        Console.WriteLine("Flight Number   Airline Name        Origin        Destination       Expected");
-        Console.WriteLine("=================================================================================");
-
-        foreach (var flight in flights.Values)
+        Console.WriteLine("=====================================================================");
+        Console.WriteLine("Flight Number Airline Name     Origin          Destination      Expected");
+        Console.WriteLine("=====================================================================");
+        foreach (var flight in flights)
         {
-            string airlineName = airlines.ContainsKey(flight.FlightNumber.Substring(0, 2))
-                                ? airlines[flight.FlightNumber.Substring(0, 2)].Name
-                                : "Unknown Airline";
-
-            Console.WriteLine($"{flight.FlightNumber,-15} {airlineName,-20} {flight.Origin,-15} {flight.Destination,-15} {flight.Time}");
+            Console.WriteLine(flight);
         }
+        Console.WriteLine("=====================================================================");
     }
 
     public void ListBoardingGates()
     {
-        Console.WriteLine("========================");
-        Console.WriteLine("Available Boarding Gates");
-        Console.WriteLine("========================");
-
-        foreach (var gate in boardingGates.Values)
+        Console.WriteLine("===============================");
+        Console.WriteLine("Gate Name       Status");
+        Console.WriteLine("===============================");
+        foreach (var gate in boardingGates)
         {
-            Console.WriteLine(gate.GateName);
+            Console.WriteLine($"{gate.GateName,-15} {(gate.IsOccupied ? "Occupied" : "Available")}");
         }
+        Console.WriteLine("===============================");
+    }
+
+    public void AssignBoardingGate()
+    {
+        Console.Write("Enter Flight Number: ");
+        string flightNumber = Console.ReadLine();
+        var flight = flights.FirstOrDefault(f => f.FlightNumber == flightNumber);
+        if (flight == null)
+        {
+            Console.WriteLine("Flight not found.");
+            return;
+        }
+
+        Console.Write("Enter Boarding Gate: ");
+        string gateName = Console.ReadLine();
+        var gate = boardingGates.FirstOrDefault(g => g.GateName == gateName);
+        if (gate == null || gate.IsOccupied)
+        {
+            Console.WriteLine("Invalid gate or already occupied.");
+            return;
+        }
+
+        flight.BoardingGate = gate;
+        gate.IsOccupied = true;
+        Console.WriteLine($"Gate {gate.GateName} assigned to flight {flight.FlightNumber}.");
     }
 }

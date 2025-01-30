@@ -10,99 +10,36 @@ class DataLoader
 
     public void LoadData()
     {
-        LoadAirlines();
-        LoadBoardingGates();
-        LoadFlights();
-
-        Console.WriteLine($"Total Airlines Loaded: {Airlines.Count}");
-        Console.WriteLine($"Total Boarding Gates Loaded: {BoardingGates.Count}");
-        Console.WriteLine($"Total Flights Loaded: {Flights.Count}");
+        LoadAirlines("airlines.csv");
+        LoadBoardingGates("boardinggates.csv");
+        LoadFlights("flights.csv");
     }
 
-    private void LoadAirlines()
+    private void LoadAirlines(string fileName)
     {
-        string filePath = "airlines.csv";
-        if (!File.Exists(filePath))
+        foreach (var line in File.ReadAllLines(fileName))
         {
-            Console.WriteLine("Airlines file not found!");
-            return;
-        }
-
-        using (StreamReader reader = new StreamReader(filePath))
-        {
-            reader.ReadLine(); // Skip header
-            string line;
-            while ((line = reader.ReadLine()) != null)
-            {
-                string[] parts = line.Split(',');
-                if (parts.Length >= 2)
-                {
-                    string code = parts[0].Trim();
-                    string name = parts[1].Trim();
-                    if (!Airlines.ContainsKey(code))
-                        Airlines.Add(code, new Airline(code, name));
-                }
-            }
+            var data = line.Split(',');
+            Airlines[data[0]] = new Airline(data[0], data[1]);
         }
     }
 
-    private void LoadBoardingGates()
+    private void LoadBoardingGates(string fileName)
     {
-        string filePath = "boardinggates.csv";
-        if (!File.Exists(filePath))
+        foreach (var line in File.ReadAllLines(fileName))
         {
-            Console.WriteLine("Boarding gates file not found!");
-            return;
-        }
-
-        using (StreamReader reader = new StreamReader(filePath))
-        {
-            reader.ReadLine(); // Skip header
-            string line;
-            while ((line = reader.ReadLine()) != null)
-            {
-                string gateName = line.Trim();
-                if (!string.IsNullOrEmpty(gateName) && !BoardingGates.ContainsKey(gateName))
-                    BoardingGates.Add(gateName, new BoardingGate(gateName));
-            }
+            BoardingGates[line] = new BoardingGate(line);
         }
     }
 
-    private void LoadFlights()
+    private void LoadFlights(string fileName)
     {
-        string filePath = "flights.csv";
-        if (!File.Exists(filePath))
+        foreach (var line in File.ReadAllLines(fileName))
         {
-            Console.WriteLine("Flights file not found!");
-            return;
-        }
-
-        using (StreamReader reader = new StreamReader(filePath))
-        {
-            reader.ReadLine(); // Skip header
-            string line;
-            while ((line = reader.ReadLine()) != null)
+            var data = line.Split(',');
+            if (Airlines.ContainsKey(data[1]))
             {
-                string[] parts = line.Split(',');
-                if (parts.Length >= 5)
-                {
-                    string flightNumber = parts[0].Trim();
-                    string origin = parts[1].Trim();
-                    string destination = parts[2].Trim();
-                    string time = parts[3].Trim();
-                    string airlineCode = parts[4].Trim();
-
-                    Flight flight = airlineCode switch
-                    {
-                        "CFFT" => new CFFTFlight(flightNumber, origin, destination, time, "On Time", airlineCode),
-                        "DDJB" => new DDJBFlight(flightNumber, origin, destination, time, "On Time", airlineCode),
-                        "LWTT" => new LWTTFlight(flightNumber, origin, destination, time, "On Time", airlineCode),
-                        _ => new ScheduledFlight(flightNumber, origin, destination, time, "On Time", airlineCode)
-                    };
-
-                    if (!Flights.ContainsKey(flightNumber))
-                        Flights.Add(flightNumber, flight);
-                }
+                Flights[data[0]] = new LWTTFlight(data[0], Airlines[data[1]], data[2], data[3], DateTime.Parse(data[4]), bool.Parse(data[5]), bool.Parse(data[6]));
             }
         }
     }

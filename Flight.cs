@@ -1,44 +1,31 @@
-﻿abstract class Flight
-{
-    public string FlightNumber { get; }
-    public string Origin { get; }
-    public string Destination { get; }
-    public string Time { get; private set; }
-    public string Status { get; private set; }
-    public string AirlineCode { get; }
-    public string? GateName { get; private set; }
+﻿using System;
 
-    protected Flight(string flightNumber, string origin, string destination, string time, string status, string airlineCode)
+abstract class Flight
+{
+    public string FlightNumber { get; set; }
+    public Airline Airline { get; set; }
+    public string Origin { get; set; }
+    public string Destination { get; set; }
+    public DateTime ExpectedTime { get; set; }
+    public BoardingGate BoardingGate { get; set; } // Nullable, assigned later
+
+    public Flight(string flightNumber, Airline airline, string origin, string destination, DateTime expectedTime)
     {
         FlightNumber = flightNumber;
+        Airline = airline;
         Origin = origin;
         Destination = destination;
-        Time = time;
-        Status = status;
-        AirlineCode = airlineCode;
-        GateName = null;
+        ExpectedTime = expectedTime;
+        BoardingGate = null;
     }
 
-    public void AssignGate(string gateName)
+    public virtual decimal CalculateFees()
     {
-        GateName = gateName;
+        return 0; // Base method, overridden in subclasses
     }
 
-    public void ModifyDetails(string newTime, string newStatus)
+    public override string ToString()
     {
-        Time = newTime;
-        Status = newStatus;
-    }
-
-    public abstract void DisplayFlightInfo();
-}
-class ScheduledFlight : Flight
-{
-    public ScheduledFlight(string flightNumber, string origin, string destination, string time, string status, string airlineCode)
-        : base(flightNumber, origin, destination, time, status, airlineCode) { }
-
-    public override void DisplayFlightInfo()
-    {
-        Console.WriteLine($"{FlightNumber,-10} {Origin,-10} {Destination,-10} {Time,-8} {Status,-10} {GateName ?? "No Gate"}");
+        return $"{FlightNumber,-10} {Airline.Name,-15} {Origin,-15} {Destination,-15} {ExpectedTime:yyyy-MM-dd HH:mm}";
     }
 }

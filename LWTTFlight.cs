@@ -1,10 +1,22 @@
 ﻿class LWTTFlight : Flight
 {
-    public LWTTFlight(string flightNumber, string origin, string destination, string time, string status, string airlineCode)
-        : base(flightNumber, origin, destination, time, status, airlineCode) { }
+    public bool SupportsDDJB { get; set; }
+    public bool SupportsCFFT { get; set; }
 
-    public override void DisplayFlightInfo()
+    public LWTTFlight(string flightNumber, Airline airline, string origin, string destination, DateTime expectedTime, bool supportsDDJB, bool supportsCFFT)
+        : base(flightNumber, airline, origin, destination, expectedTime)
     {
-        Console.WriteLine($"{FlightNumber,-10} {Origin,-10} {Destination,-10} {Time,-8} {Status,-10} {GateName ?? "No Gate"}");
+        SupportsDDJB = supportsDDJB;
+        SupportsCFFT = supportsCFFT;
+    }
+
+    public override decimal CalculateFees()
+    {
+        return 5000; // Placeholder fee, update based on assignment rules
+    }
+
+    public override string ToString()
+    {
+        return base.ToString() + $" {SupportsDDJB,-10} {SupportsCFFT,-10}";
     }
 }
