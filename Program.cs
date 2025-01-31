@@ -40,7 +40,7 @@ class Program
                 case "2":
                     terminal.ListBoardingGates();
                     break;
-                case "3":
+           /*     case "3":
                     terminal.AssignBoardingGate();
                     break;
                 case "4":
@@ -54,7 +54,7 @@ class Program
                     break;
                 case "7":
                     terminal.DisplayFlightSchedule();
-                    break;
+                    break;*/
                 case "0":
                     Console.WriteLine("Exiting program...");
                     return;
