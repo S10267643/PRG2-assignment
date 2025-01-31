@@ -48,7 +48,7 @@ class Terminal
             Console.WriteLine(gate.GateName);
         }
     }
-    public void AssignBoardingGate()
+    /*public void AssignBoardingGate()
     {
         Console.Write("Enter Flight Number: ");
         string flightNumber = Console.ReadLine();
@@ -150,7 +150,7 @@ class Terminal
         {
             Console.WriteLine($"{flight.FlightNumber} {flight.Airline.Name} {flight.Origin} {flight.Destination} {flight.ExpectedTime}");
         }
-    }
+    }*/
 
 
 }
