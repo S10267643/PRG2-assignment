@@ -19,8 +19,7 @@ class Program
 
         
 
-        while (true)
-        {
+      
             Console.WriteLine("\n1. List All Flights");
             Console.WriteLine("2. List Boarding Gates");
             Console.WriteLine("3. Assign a Boarding Gate to a Flight");
@@ -64,4 +63,4 @@ class Program
             }
         }
     }
-}
+
