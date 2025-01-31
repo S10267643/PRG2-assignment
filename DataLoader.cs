@@ -8,7 +8,7 @@ class DataLoader
     public Dictionary<string, Airline> Airlines { get; private set; }
     public Dictionary<string, BoardingGate> BoardingGates { get; private set; }
     public Dictionary<string, Flight> Flights { get; private set; }
-    public int count;
+    private int count;
     
     public DataLoader()
     {
@@ -61,7 +61,7 @@ class DataLoader
             while ((line = sr.ReadLine()) != null)
             {
                 string[] parts = line.Split(',');
-                if (parts.Length < 1) continue;
+             
                 string gateName = parts[0].Trim();
                 count++;
                 
@@ -85,7 +85,7 @@ class DataLoader
             {
                 count = 0;
                 string[] parts = line.Split(',');
-                if (parts.Length < 5) continue;
+               
 
                 string flightNumber = parts[0].Trim();
                 string airlineCode = parts[1].Trim();
