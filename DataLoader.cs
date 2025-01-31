@@ -27,7 +27,7 @@ class DataLoader
 
     private void LoadAirlines(string filename)
     {
-        if (!File.Exists(filename)) return;
+   
 
         using (StreamReader sr = new StreamReader(filename))
         {
@@ -37,7 +37,7 @@ class DataLoader
             while ((line = sr.ReadLine()) != null)
             {
                 string[] parts = line.Split(',');
-                if (parts.Length < 2) continue;
+              
                 string code = parts[0].Trim();
                 string name = parts[1].Trim();
                 count++;
