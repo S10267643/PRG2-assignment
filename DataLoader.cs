@@ -73,9 +73,13 @@ class DataLoader
     
     
 
-    private void LoadFlights(string filename)
+
+    public void LoadFlights(string filename)
     {
         if (!File.Exists(filename)) return;
+
+        List<(string FlightNumber, string Origin, string Destination, DateTime ExpectedTime, string SpecialRequest)> flights = new();
+        int count = 0;
 
         using (StreamReader sr = new StreamReader(filename))
         {
@@ -83,20 +87,29 @@ class DataLoader
             string line;
             while ((line = sr.ReadLine()) != null)
             {
-                count = 0;
                 string[] parts = line.Split(',');
-               
+
+                if (parts.Length < 4) continue; // Skip malformed lines
 
                 string flightNumber = parts[0].Trim();
-                string airlineCode = parts[1].Trim();
-                string origin = parts[2].Trim();
-                string destination = parts[3].Trim();
-                DateTime expectedTime = DateTime.Parse(parts[4].Trim());
-                count++;
+                string origin = parts[1].Trim();
+                string destination = parts[2].Trim();
+                DateTime expectedTime;
 
-               
+                if (!DateTime.TryParse(parts[3].Trim(), out expectedTime))
+                {
+                    Console.WriteLine($"Skipping invalid date format: {line}");
+                    continue;
+                }
+
+                string specialRequest = parts.Length > 4 ? parts[4].Trim() : "N/A"; // Handle missing values
+
+                flights.Add((flightNumber, origin, destination, expectedTime, specialRequest));
+                count++;
+                
             }
         }
+       
         Console.WriteLine("Loading Flights... ");
         Console.WriteLine(count + " Flights Loaded");
     }
