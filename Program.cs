@@ -59,6 +59,7 @@ class Program
                     return;
                 default:
                     Console.WriteLine("Invalid option. Please try again.");
+                    Main()
                     break;
             }
         }
